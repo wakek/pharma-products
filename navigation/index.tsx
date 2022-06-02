@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+import AddProduct from '../screens/AddProduct';
 import Home from '../screens/Home';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
@@ -30,6 +31,11 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: 'Oops!' }}
       />
+      <Stack.Screen
+        name="AddProduct"
+        component={AddProduct}
+        options={{ headerShown: false }}
+      />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen
@@ -37,6 +43,7 @@ function RootNavigator() {
           component={ProductDetails}
           options={{ headerShown: false }}
         />
+
       </Stack.Group>
     </Stack.Navigator>
   );

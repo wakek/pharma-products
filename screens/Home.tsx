@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { Button, Divider, EvaProp, Icon, Layout, List, Spinner, Text, withStyles } from '@ui-kitten/components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -16,6 +17,7 @@ interface HomeProps {
 
 const _Home = observer(({ navigation, eva }: HomeProps) => {
   const { productsStore } = useRootStore();
+  const _navigation = useNavigation();
 
   React.useEffect(() => {
     return () => {
@@ -25,6 +27,30 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
   const renderListItem = (product: ListRenderItemInfo<Product>) => (
     <ProductListItem product={product.item} />
   );
+
+  const getLatestPriceDate = (product: Product): Date => {
+    // get latest date from list of strings in product.prices
+    const latestPriceDate = product.prices.reduce((latestDate, price) => {
+      const date = new Date(price.date);
+      if (date > latestDate) {
+        return date;
+      }
+      return latestDate;
+    }, new Date(0));
+
+    // return date as MMM DD, YYYY
+    return latestPriceDate;
+  };
+
+  const getSortedProducts = () => {
+    const products = productsStore.products;
+    // sort by latest price date
+    return products.slice().sort((a, b) => {
+      const aDate = getLatestPriceDate(a);
+      const bDate = getLatestPriceDate(b);
+      return aDate > bDate ? -1 : 1;
+    });
+  };
 
   return (
     <Layout style={eva.style?.container}>
@@ -53,7 +79,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
         ListHeaderComponentStyle={eva.style?.listHeader}
         style={eva.style?.listContainer}
         contentContainerStyle={eva.style?.contentContainer}
-        data={productsStore.products}
+        data={getSortedProducts()}
         renderItem={renderListItem}
         ItemSeparatorComponent={Divider}
       />}
@@ -81,6 +107,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
             fill="#fff"
           />
         }
+        onPress={() => _navigation.navigate('AddProduct')}
       >
         {Strings.EN.Add.toUpperCase()}
       </Button>

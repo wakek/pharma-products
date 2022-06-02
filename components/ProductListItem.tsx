@@ -3,6 +3,7 @@ import { EvaProp, Icon, Text, useTheme, withStyles } from "@ui-kitten/components
 import React from "react";
 import { Animated, I18nManager, TouchableOpacity, View } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
+import { useRootStore } from "../hooks/useRootStore";
 import { Product } from "../models/Product";
 
 export interface ProductListItemProps {
@@ -13,6 +14,7 @@ export interface ProductListItemProps {
 const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
     const theme = useTheme();
     const navigation = useNavigation();
+    const { productsStore } = useRootStore();
 
     // create swipeable ref
     const swipeableRef = React.useRef<Swipeable>(null);
@@ -95,6 +97,7 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
     };
 
     const close = () => {
+        productsStore.removeProduct(product);
         swipeableRef.current?.close();
     };
 

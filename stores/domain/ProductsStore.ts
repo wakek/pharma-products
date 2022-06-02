@@ -64,6 +64,23 @@ export class ProductsStore {
         );
     }
 
+    removeProduct(product: Product) {
+        this.products = this.products.filter(
+            _product => _product.id !== product.id,
+        );
+        this.setProducts(this.products);
+    }
+
+    addProduct(product: Product) {
+        this.products.push(product);
+        this.setProducts(this.products);
+    }
+
+    getNewProductId() {
+        const maxId = Math.max(...this.products.map(product => product.id));
+        return maxId + 1;
+    }
+
     get getProducts() {
         return this.products;
     }
