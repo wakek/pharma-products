@@ -29,6 +29,7 @@ export class ProductsStore {
     }
 
     async loadProducts() {
+
         ProductsService.getAllProducts()
             .then(productsResponse => {
                 if (

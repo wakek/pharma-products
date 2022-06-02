@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 import useCachedResources from './hooks/useCachedResources';
+import RootStoreProvider from './hooks/useRootStore';
 import Navigation from './navigation';
 import { default as theme } from './theme.json';
 
@@ -17,14 +18,16 @@ export default function App() {
     return (
       <>
         <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider
-          {...eva} theme={{ ...eva.dark, ...theme }}
-        >
-          <SafeAreaView style={{ flex: 1 }}>
-            <Navigation />
-            <StatusBar backgroundColor="#61dafb" style='dark' />
-          </SafeAreaView>
-        </ApplicationProvider>
+        <RootStoreProvider>
+          <ApplicationProvider
+            {...eva} theme={{ ...eva.light, ...theme }}
+          >
+            <SafeAreaView style={{ flex: 1 }}>
+              <Navigation />
+              <StatusBar backgroundColor="#61dafb" style='dark' />
+            </SafeAreaView>
+          </ApplicationProvider>
+        </RootStoreProvider>
       </>
     );
   }

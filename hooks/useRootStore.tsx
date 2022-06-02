@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { RootStore } from '../stores/domain/RootStore';
 
+let store: RootStore;
 const StoreContext = React.createContext<RootStore | undefined>(undefined);
 
 export const useRootStore = () => {

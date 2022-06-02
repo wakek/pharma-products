@@ -1,64 +1,78 @@
-import { Button, Divider, EvaProp, Icon, Layout, List, Spinner, Text, withStyles } from '@ui-kitten/components';
+import { Route } from '@react-navigation/native';
+import { Button, Divider, EvaProp, Icon, Layout, List, Text, TopNavigationAction, withStyles } from '@ui-kitten/components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
-import ProductListItem from '../components/ProductListItem';
+import PriceChangeListItem from '../components/PriceChangeListItem';
 import { Strings } from '../constants/Strings';
-import { useRootStore } from '../hooks/useRootStore';
-import { Product } from '../models/Product';
-import { RootScreenProps } from '../types';
+import { Price, Product } from '../models/Product';
+import { ProductDetailsScreenProps } from '../types';
 
 
-interface HomeProps {
-  navigation: RootScreenProps,
+interface ProductDetailsProps {
+  route: Route<string, { product?: Product }>;
+  navigation: ProductDetailsScreenProps,
   eva: EvaProp,
 }
 
-const _Home = observer(({ navigation, eva }: HomeProps) => {
-  const { productsStore } = useRootStore();
+const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProps) => {
+  const product = route?.params?.product;
 
-  React.useEffect(() => {
-    return () => {
-    };
-  }, [productsStore.products, productsStore.isLoading]);
+  const renderListItem = (price: ListRenderItemInfo<Price>) => {
+    const sortedPrices = getSortedPrices();
+    // calculate percentage price change
+    const currentPrice = price.item.price;
+    const previousPrice = sortedPrices[price.index + 1]?.price;
+    const priceChange = price.index != (sortedPrices.length - 1) && previousPrice ? (currentPrice - previousPrice) / previousPrice : 0;
 
-  const renderListItem = (product: ListRenderItemInfo<Product>) => (
-    <ProductListItem product={product.item} />
+    return (
+      <PriceChangeListItem
+        price={price.item}
+        priceChange={priceChange}
+      />
+    );
+  };
+
+  const BackAction = () => (
+    <TopNavigationAction
+      icon={(props) => (
+        <Icon {...props} name='arrow-back' />
+      )}
+    />
   );
+
+  const getSortedPrices = () => {
+    const prices = product?.prices;
+    return prices?.slice().sort((a, b) => b.price - a.price) ?? [];
+  };
 
   return (
     <Layout style={eva.style?.container}>
-      {productsStore.getIsLoading &&
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-          <Spinner />
-        </View>
-      }
+      {/* <TopNavigation
+        accessoryLeft={BackAction}
+        title='Overview'
+      /> */}
 
-      {(!productsStore.getIsLoading && productsStore.getProducts.length > 0) && <List
+      {(product?.prices && product?.prices.length > 0) && <List
         ListHeaderComponent={
           () => <>
             <Text style={eva.style?.h6} category='h3' status='primary'>
-              {Strings.EN.Our_Products}
+              {Strings.EN.Overview}: {product?.name}
             </Text>
             <Text style={eva.style?.subtitle} category='s1' status='basic'>
-              {Strings.EN.Products_Subtitle}
+              {Strings.EN.Overview_Subtitle}
             </Text>
           </>
         }
         ListHeaderComponentStyle={eva.style?.listHeader}
         style={eva.style?.listContainer}
         contentContainerStyle={eva.style?.contentContainer}
-        data={productsStore.products}
+        data={getSortedPrices()}
         renderItem={renderListItem}
         ItemSeparatorComponent={Divider}
       />}
 
-      {(!productsStore.getIsLoading && productsStore.getProducts.length == 0) && <View
+      {(!product || product?.prices.length == 0) && <View
         style={{
           flex: 1,
           justifyContent: 'center',
@@ -88,7 +102,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
   );
 });
 
-const Home = withStyles(_Home, theme => ({
+const ProductDetails = withStyles(_ProductDetails, theme => ({
   container: {
     flex: 1,
   },
@@ -119,7 +133,7 @@ const Home = withStyles(_Home, theme => ({
     bottom: 20,
     right: 20,
     borderRadius: 100,
-  },
+  }
 }));
 
-export default Home;
+export default ProductDetails;

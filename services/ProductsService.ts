@@ -1,9 +1,9 @@
 import { Strings } from "../constants/Strings";
 import { ProductsResponse } from "../models/ApiResponses";
 
-const getAllProducts = async (): Promise<ProductsResponse | void> => {
+const getAllProducts = async (): Promise<ProductsResponse | undefined> => {
 
-    fetch(
+    return fetch(
         `${Strings.API.BASE_URL}${Strings.API.V2}${Strings.API.PRODUCTS_ENDPOINT}`,
         {
             method: 'GET',
@@ -13,11 +13,15 @@ const getAllProducts = async (): Promise<ProductsResponse | void> => {
             },
         },
     )
-        .then(response => response.json())
+        .then(response => {
+            return response.json();
+        })
         .then((productsResponse: ProductsResponse) => {
             return productsResponse;
         })
-
+        .catch(err => {
+            return undefined
+        });
 };
 
 export const ProductsService = {

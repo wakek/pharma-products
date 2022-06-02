@@ -1,12 +1,10 @@
-import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/components';
 import * as React from 'react';
 import Home from '../screens/Home';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import Settings from '../screens/Settings';
+import ProductDetails from '../screens/ProductDetails';
 import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -26,38 +24,53 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="Root" component={Home} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ title: 'Oops!' }}
+      />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen
+          name="ProductDetails"
+          component={ProductDetails}
+          options={{ headerShown: false }}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
 }
 
-const { Navigator, Screen } = createBottomTabNavigator();
+// const { Navigator, Screen } = createBottomTabNavigator();
 
-const BottomTabBar = ({ navigation, state }: BottomTabBarProps) => (
-  <BottomNavigation
-    selectedIndex={state.index}
-    onSelect={index => navigation.navigate(state.routeNames[index])}>
-    <BottomNavigationTab
-      title='Home'
-      icon={<Icon name='home' />}
-    />
-    <BottomNavigationTab
-      title='Settings'
-      icon={<Icon name='settings' />}
-    />
-  </BottomNavigation>
-);
+// const BottomTabBar = ({ navigation, state }: BottomTabBarProps) => (
+//   <BottomNavigation
+//     style={{
+//       borderTopColor: '#E9ECEF',
+//       borderTopWidth: 1,
+//     }}
+//     selectedIndex={state.index}
+//     onSelect={index => navigation.navigate(state.routeNames[index])}>
+//     <BottomNavigationTab
+//       title='Home'
+//       icon={<Icon name='home' />}
+//     />
+//     <BottomNavigationTab
+//       title='Settings'
+//       icon={<Icon name='settings' />}
+//     />
+//   </BottomNavigation>
+// );
 
-function BottomTabNavigator() {
-  return (
-    <Navigator
-      tabBar={props => <BottomTabBar {...props} />}>
-      <Screen name='Home' component={Home} options={{ headerShown: false }} />
-      <Screen name='Settings' component={Settings} />
-    </Navigator>
-  );
-}
+// function BottomTabNavigator() {
+//   return (
+//     <Navigator
+//       tabBar={props =>
+//         <BottomTabBar {...props} />}
+//     >
+//       <Screen name='Home' component={Home} options={{ headerShown: false }} />
+//       <Screen name='Settings' component={Settings} />
+//     </Navigator>
+//   );
+// }
