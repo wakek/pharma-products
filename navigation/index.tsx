@@ -6,6 +6,7 @@ import Home from '../screens/Home';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import ProductDetails from '../screens/ProductDetails';
+import UpdateProduct from '../screens/UpdateProduct';
 import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -34,6 +35,11 @@ function RootNavigator() {
       <Stack.Screen
         name="AddProduct"
         component={AddProduct}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UpdateProduct"
+        component={UpdateProduct}
         options={{ headerShown: false }}
       />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>

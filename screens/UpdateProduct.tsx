@@ -1,16 +1,16 @@
 import { Route, useNavigation } from "@react-navigation/native";
-import { Button, Datepicker, EvaProp, Icon, Input, Layout, Text, TopNavigation, TopNavigationAction, withStyles } from "@ui-kitten/components";
+import { Button, EvaProp, Icon, Input, Layout, Text, TopNavigation, TopNavigationAction, withStyles } from "@ui-kitten/components";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
 import { Product } from "../models/Product";
-import { AddProductScreenProps } from "../types";
+import { UpdateProductScreenProps } from "../types";
 
-interface AddProductProps {
-    route: Route<string>;
-    navigation: AddProductScreenProps,
+interface UpdateProductProps {
+    route: Route<string, { product: Product }>;
+    navigation: UpdateProductScreenProps,
     eva: EvaProp,
 }
 
@@ -23,55 +23,34 @@ const useInputState = (initialValue = '', formatter = (val: string) => val) => {
     };
 };
 
-const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
+const _UpdateProduct = observer(({ route, navigation, eva }: UpdateProductProps) => {
+    const product = route?.params?.product;
     const { productsStore } = useRootStore();
     const _navigation = useNavigation();
 
     const controlNameInputState = useInputState(
-        '',
+        product.name,
         (val: string) => {
             setNameInputError(false);
-            return val;
+            return val
         }
     );
     const [nameInputError, setNameInputError] = React.useState(false);
-    const controlPriceInputState = useInputState(
-        '',
-        (val: string) => {
-            setPriceInputError(false);
-            return currencyFormatter(val);
-        }
-    );
-    const [priceInputError, setPriceInputError] = React.useState(false);
-    const [date, setDate] = React.useState(new Date());
 
-    const currencyFormatter = (value: string) => {
-        // format input for decimal currency
-        return `${value.replace(/[^\d.-]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
-    }
 
-    const addProduct = () => {
+    const updateProduct = () => {
         setNameInputError(false);
 
-        // Check if inputs are empty, if so, show error, otherwise add product
+        // Check if inputs are empty, if so, show error, otherwise update product
         if (controlNameInputState.value.length === 0) {
             setNameInputError(true);
-        } else if (controlPriceInputState.value.length === 0) {
-            setPriceInputError(true);
-            return;
         } else {
-            // Add product to store
-            const product: Product = {
-                id: productsStore.getNewProductId(),
+            const updatedProduct: Product = {
+                ...product,
                 name: controlNameInputState.value,
-                prices: [{
-                    id: 1,
-                    price: parseFloat(controlPriceInputState.value),
-                    date: date.toISOString(),
-                }],
             };
 
-            productsStore.addProduct(product);
+            productsStore.updateProduct(updatedProduct);
             _navigation.goBack();
         }
 
@@ -94,10 +73,10 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
                 >
                     <View style={eva?.style?.header}>
                         <Text style={eva.style?.h6} category='h3' status='primary'>
-                            {Strings.EN.Add_Product}
+                            {Strings.EN.Update_Product}
                         </Text>
                         <Text style={eva.style?.subtitle} category='s1' status='basic'>
-                            {Strings.EN.Add_Product_Subtitle}
+                            {Strings.EN.Update_Product_Subtitle}
                         </Text>
                     </View>
 
@@ -117,39 +96,12 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
                         {...controlNameInputState}
                     />
 
-                    <Input
-                        style={eva.style?.input}
-                        label={Strings.EN.Product_Price}
-                        placeholder={Strings.EN.Product_Price_Subtitle}
-                        accessoryLeft={(props: any) => (
-                            <Icon {...props} name='pricetags-outline' />
-                        )}
-                        status={priceInputError ? 'danger' : 'basic'}
-                        caption={evaProps =>
-                            priceInputError ? <Text {...evaProps}>
-                                {Strings.EN.Enter_a_valid_price}
-                            </Text> : <></>
-                        }
-                        {...controlPriceInputState}
-                    />
-
-                    <Datepicker
-                        style={eva.style?.input}
-                        label={Strings.EN.Price_Date}
-                        placeholder={Strings.EN.Price_Date_Subtitle}
-                        date={date}
-                        onSelect={nextDate => setDate(nextDate)}
-                        accessoryRight={(props: any) => (
-                            <Icon {...props} name='calendar-outline' />
-                        )}
-                    />
-
                     <Button
                         style={eva.style?.button}
                         size='large'
-                        onPress={addProduct}
+                        onPress={updateProduct}
                     >
-                        {Strings.EN.Add}
+                        {Strings.EN.Update}
                     </Button>
                 </ScrollView>
             </Layout>
@@ -158,7 +110,7 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
 });
 
 
-const AddProduct = withStyles(_AddProduct, theme => ({
+const UpdateProduct = withStyles(_UpdateProduct, theme => ({
     container: {
         flex: 1,
         paddingHorizontal: 20,
@@ -185,4 +137,4 @@ const AddProduct = withStyles(_AddProduct, theme => ({
     },
 }));
 
-export default AddProduct;
+export default UpdateProduct;

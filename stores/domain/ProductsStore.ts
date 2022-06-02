@@ -76,6 +76,13 @@ export class ProductsStore {
         this.setProducts(this.products);
     }
 
+    updateProduct(product: Product) {
+        this.products = this.products.map(
+            _product => (_product.id === product.id ? product : _product),
+        );
+        this.setProducts(this.products);
+    }
+
     getNewProductId() {
         const maxId = Math.max(...this.products.map(product => product.id));
         return maxId + 1;

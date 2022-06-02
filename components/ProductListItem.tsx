@@ -65,7 +65,7 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
             extrapolate: 'clamp',
         });
         return (
-            <RectButton style={eva?.style?.leftAction} onPress={close}>
+            <RectButton style={eva?.style?.leftAction} onPress={updateProduct}>
                 <Icon
                     name="edit-outline"
                     size={30}
@@ -85,7 +85,7 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
             extrapolate: 'clamp',
         });
         return (
-            <RectButton style={eva?.style?.rightAction} onPress={close}>
+            <RectButton style={eva?.style?.rightAction} onPress={deleteProduct}>
                 <Icon
                     name="trash-2-outline"
                     size={30}
@@ -96,7 +96,12 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
         );
     };
 
-    const close = () => {
+    const updateProduct = () => {
+        navigation.navigate('UpdateProduct', { product });
+        swipeableRef.current?.close();
+    }
+
+    const deleteProduct = () => {
         productsStore.removeProduct(product);
         swipeableRef.current?.close();
     };
