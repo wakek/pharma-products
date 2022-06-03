@@ -1,6 +1,6 @@
 export const Strings = {
     API: {
-        BASE_URL: 'http://www.mocky.io',
+        BASE_URL: 'https://www.mocky.io',
         V2: '/v2',
         PRODUCTS_ENDPOINT: '/5c3e15e63500006e003e9795',
     },
