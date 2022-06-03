@@ -29,7 +29,6 @@ export class ProductsStore {
     }
 
     async loadProducts() {
-
         ProductsService.getAllProducts()
             .then(productsResponse => {
                 if (
@@ -37,6 +36,11 @@ export class ProductsStore {
                 ) {
                     this.setProducts(productsResponse.products);
                 }
+            })
+            .catch(err => {
+                this.setProducts([]);
+                console.log(err);
+
             })
             .finally(() => this.setIsLoading(false));
     }

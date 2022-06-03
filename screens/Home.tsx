@@ -22,7 +22,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
   React.useEffect(() => {
     return () => {
     };
-  }, [productsStore.products, productsStore.isLoading]);
+  }, [productsStore.products, productsStore.isLoading, productsStore.getIsLoading, productsStore.getProducts]);
 
   const renderListItem = (product: ListRenderItemInfo<Product>) => (
     <ProductListItem product={product.item} />
