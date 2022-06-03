@@ -29,6 +29,7 @@ export class ProductsStore {
     }
 
     async loadProducts() {
+        this.setIsLoading(true);
         ProductsService.getAllProducts()
             .then(productsResponse => {
                 if (
@@ -57,13 +58,6 @@ export class ProductsStore {
             .finally(() => setTimeout(() => this.setIsLoading(false), delay));
     }
 
-    removeProduct(product: Product) {
-        const _products = this.products.filter(
-            _product => _product.id !== product.id,
-        );
-        this.setProducts(_products);
-    }
-
     addProduct(product: Product) {
         this.products.push(product);
         this.setProducts(this.products);
@@ -72,6 +66,13 @@ export class ProductsStore {
     updateProduct(product: Product) {
         const _products = this.products.map(
             _product => (_product.id === product.id ? product : _product),
+        );
+        this.setProducts(_products);
+    }
+
+    removeProduct(product: Product) {
+        const _products = this.products.filter(
+            _product => _product.id !== product.id,
         );
         this.setProducts(_products);
     }

@@ -121,7 +121,7 @@ const _AddPrice = observer(({ route, navigation, eva }: AddPriceProps) => {
                         placeholder={Strings.EN.Price_Date_Subtitle}
                         date={date}
                         onSelect={nextDate => setDate(nextDate)}
-                        disabled={!isNewPrice}
+                        disabled={isNewPrice}
                         accessoryRight={(props: any) => (
                             <Icon {...props} name='calendar-outline' />
                         )}

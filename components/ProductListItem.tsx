@@ -109,11 +109,14 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
     return (
         <Swipeable
             ref={swipeableRef}
-            friction={2}
+            friction={3}
             leftThreshold={80}
             rightThreshold={41}
             renderLeftActions={renderLeftActions}
-            renderRightActions={renderRightActions}>
+            renderRightActions={renderRightActions}
+            onSwipeableLeftOpen={updateProduct}
+            onSwipeableRightOpen={deleteProduct}
+        >
             <TouchableOpacity onPress={openDetails} activeOpacity={0.7}>
                 <View style={eva?.style?.card}>
                     <View style={eva?.style?.titleRow}>

@@ -37,7 +37,7 @@ const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProp
     // calculate percentage price change
     const currentPrice = price.item.price;
     const previousPrice = sortedPrices[price.index + 1]?.price;
-    const priceChange = price.index != (sortedPrices.length - 1) && previousPrice ? (currentPrice - previousPrice) / previousPrice : 0;
+    const priceChange = price.index != (sortedPrices.length - 1) && previousPrice ? ((currentPrice - previousPrice) / previousPrice) * 100 : 0;
 
     return (
       <PriceChangeListItem
@@ -48,8 +48,15 @@ const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProp
   };
 
   const getSortedPrices = () => {
-    const prices = product?.prices;
-    return prices?.slice().sort((a, b) => b.price - a.price) ?? [];
+    const prices = product?.prices.slice();
+    // sort prices by date
+    const sortedPrices = prices?.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    return sortedPrices ?? [];
   };
 
   return (

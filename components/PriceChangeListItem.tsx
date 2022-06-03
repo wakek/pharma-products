@@ -1,4 +1,4 @@
-import { EvaProp, Icon, Text, useTheme, withStyles } from "@ui-kitten/components";
+import { Card, EvaProp, Icon, Modal, Text, useTheme, withStyles } from "@ui-kitten/components";
 import React from "react";
 import { I18nManager, View } from "react-native";
 import { Price } from "../models/Product";
@@ -11,6 +11,7 @@ export interface PriceChangeListItemProps {
 
 const _PriceChangeListItem = ({ price, priceChange, eva }: PriceChangeListItemProps) => {
     const theme = useTheme();
+    const [visibleModal, setVisibleModal] = React.useState(false);
 
     const getPriceDate = (): string => {
         // return date as MMM DD, YYYY
@@ -22,55 +23,69 @@ const _PriceChangeListItem = ({ price, priceChange, eva }: PriceChangeListItemPr
     };
 
     return (
-        <View style={eva?.style?.card}>
-            <View style={eva?.style?.titleRow}>
-                <View style={eva?.style?.productIconContainer}>
-                    <Icon
-                        style={eva?.style?.productIcon}
-                        fill={theme['text-basic-color']}
-                        name={priceChange > 0 ? 'chevron-up-outline' : 'chevron-down-outline'}
-                    />
-                </View>
+        <>
+            <View style={eva?.style?.card}>
+                <View style={eva?.style?.titleRow}>
+                    <View style={eva?.style?.productIconContainer}>
+                        <Icon
+                            style={eva?.style?.productIcon}
+                            fill={theme['text-basic-color']}
+                            name={priceChange > 0 ? 'chevron-up-outline' : 'chevron-down-outline'}
+                        />
+                    </View>
 
-                <Text style={eva?.style?.title} category='s1' status='basic'>
-                    GHC {price.price.toFixed(2)}
-                </Text>
-            </View>
-            <View style={eva?.style?.badgeRow}>
-                <View style={[eva?.style?.bagde, eva?.style?.dateTimeBagde]}>
-                    <Icon
-                        style={eva?.style?.badgeIcon}
-                        fill={theme['text-basic-color']}
-                        name='clock-outline'
-                    />
-                    <Text style={eva?.style?.badgeText} category='s2' status='basic'>
-                        {getPriceDate()}
+                    <Text style={eva?.style?.title} category='s1' status='basic'>
+                        GHC {price.price.toFixed(2)}
                     </Text>
                 </View>
+                <View style={eva?.style?.badgeRow}>
+                    <View style={[eva?.style?.bagde, eva?.style?.dateTimeBagde]}>
+                        <Icon
+                            style={eva?.style?.badgeIcon}
+                            fill={theme['text-basic-color']}
+                            name='clock-outline'
+                        />
+                        <Text style={eva?.style?.badgeText} category='s2' status='basic'>
+                            {getPriceDate()}
+                        </Text>
+                    </View>
 
-                <View
-                    style={[
-                        eva?.style?.bagde, eva?.style?.percentageBadge,
-                        {
-                            backgroundColor: priceChange >= 0 ? theme['color-success-200'] : theme['color-danger-200'],
-                        }
-                    ]}
-                >
-                    <Icon
-                        style={eva?.style?.badgeIcon}
-                        fill={priceChange >= 0 ? theme['color-success-600'] : theme['color-danger-600']}
-                        name='percent-outline'
-                    />
-                    <Text style={eva?.style?.badgeText} category='s2' status='basic'>
-                        {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
-                    </Text>
+                    <View
+                        style={[
+                            eva?.style?.bagde, eva?.style?.percentageBadge,
+                            {
+                                backgroundColor: priceChange >= 0 ? theme['color-success-200'] : theme['color-danger-200'],
+                            }
+                        ]}
+                    >
+                        <Icon
+                            style={eva?.style?.badgeIcon}
+                            fill={priceChange >= 0 ? theme['color-success-600'] : theme['color-danger-600']}
+                            name='percent-outline'
+                        />
+                        <Text style={eva?.style?.badgeText} category='s2' status='basic'>
+                            {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
+                        </Text>
+                    </View>
                 </View>
             </View>
-        </View>
+
+            <Modal
+                visible={visibleModal}
+                backdropStyle={eva?.style?.backdrop}
+                onBackdropPress={() => setVisibleModal(false)}>
+                <Card disabled={true}>
+                    <Text>Welcome to UI Kitten 😻</Text>
+                </Card>
+            </Modal>
+        </>
     );
 }
 
 const PriceChangeListItem = withStyles(_PriceChangeListItem, theme => ({
+    backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
     card: {
         backgroundColor: theme['background-basic-color-1'],
         paddingHorizontal: 20,

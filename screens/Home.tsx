@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { Button, Divider, EvaProp, Icon, Layout, List, Text, withStyles } from '@ui-kitten/components';
+import { Button, Divider, EvaProp, Icon, IndexPath, Layout, List, MenuItem, OverflowMenu, Spinner, Text, withStyles } from '@ui-kitten/components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ListRenderItemInfo, RefreshControl, View } from 'react-native';
@@ -18,11 +18,26 @@ interface HomeProps {
 const _Home = observer(({ navigation, eva }: HomeProps) => {
   const { productsStore } = useRootStore();
   const _navigation = useNavigation();
+  const [visible, setVisible] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | undefined>(undefined);
 
   React.useEffect(() => {
     return () => {
     };
   }, [productsStore.products, productsStore.isLoading, productsStore.getIsLoading, productsStore.getProducts]);
+
+  const onItemSelect = (index: IndexPath) => {
+    setVisible(false);
+
+    switch (index.row) {
+      case 0:
+        productsStore.loadProducts();
+        break;
+      case 1:
+      default:
+        break;
+    }
+  };
 
   const renderListItem = (product: ListRenderItemInfo<Product>) => (
     <ProductListItem product={product.item} />
@@ -43,7 +58,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
   };
 
   const getSortedProducts = () => {
-    const products = productsStore.products;
+    const products = productsStore.getProducts;
     // sort by latest price date
     return products.slice().sort((a, b) => {
       const aDate = getLatestPriceDate(a);
@@ -54,38 +69,58 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
 
   return (
     <Layout style={eva.style?.container}>
-      {/* {productsStore.getProducts.length === 0 && productsStore.getIsLoading &&
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-          <Spinner />
-        </View>
-      } */}
-
       <List
         // Add refresh control to enable pull to refresh
         refreshControl={
           <RefreshControl
+            // set color of refresh control
+            tintColor={eva && eva?.theme ? eva?.theme['color-primary-500'] : '#F4F5F6'}
             refreshing={productsStore.isLoading}
             onRefresh={() => productsStore.loadStoredProducts(500)}
           />
         }
         ListHeaderComponent={
           () => <>
-            <Text style={eva.style?.h6} category='h3' status='primary'>
-              {Strings.EN.Our_Products}
-            </Text>
-            <Text style={eva.style?.subtitle} category='s1' status='basic'>
-              {Strings.EN.Products_Subtitle}
-            </Text>
+            <View style={eva?.style?.headerTitleRow}>
+              <View style={eva?.style?.titles}>
+                <Text style={eva.style?.title} category='h3' status='primary'>
+                  {Strings.EN.Our_Products}
+                </Text>
+                <Text style={eva.style?.subtitle} category='s1' status='basic'>
+                  {Strings.EN.Products_Subtitle}
+                </Text>
+              </View>
+
+              <OverflowMenu
+                style={eva.style?.overflowMenu}
+                anchor={() =>
+                  <Button
+                    status='basic'
+                    size='tiny'
+                    style={eva?.style?.settingsButton}
+                    onPress={() => setVisible(true)}
+                  >
+                    <View>
+                      <Icon
+                        style={eva.style?.settingsIcon}
+                        name="settings"
+                        size={20}
+                        fill={eva && eva?.theme ? eva.theme['color-basic-transparent-600'] : '#F4F5F6'}
+                      />
+                    </View>
+                  </Button>}
+                selectedIndex={selectedIndex}
+                visible={visible}
+                onSelect={onItemSelect}
+                onBackdropPress={() => setVisible(false)}>
+                <MenuItem title='Reset data' />
+              </OverflowMenu>
+            </View>
           </>
         }
         ListHeaderComponentStyle={eva.style?.listHeader}
         ListEmptyComponent={
-          () => <View
+          () => !productsStore.getIsLoading ? <View
             style={{
               flex: 1,
               justifyContent: 'center',
@@ -94,11 +129,17 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
             <Text style={eva.style?.noDataText} category='h6'>
               {Strings.EN['No data']}
             </Text>
+          </View> : <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            <Spinner />
           </View>
         }
         style={eva.style?.listContainer}
-        // toggle visibility based on isLoading
-        contentContainerStyle={[eva.style?.contentContainer, { display: productsStore.isLoading ? 'none' : 'flex' }]}
+        contentContainerStyle={[eva.style?.contentContainer]}
         data={getSortedProducts()}
         renderItem={renderListItem}
         ItemSeparatorComponent={Divider}
@@ -127,9 +168,19 @@ const Home = withStyles(_Home, theme => ({
   container: {
     flex: 1,
   },
-  h6: {
-    marginTop: 30,
-    marginBottom: 5,
+  headerTitleRow: {
+    flex: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flx-start',
+    marginTop: 15,
+  },
+  titles: {
+    flexDirecton: 'column',
+    alignItems: 'flex-start',
+    flex: 1,
+  },
+  title: {
     fontFamily: 'Nunito-ExtraBold',
   },
   subtitle: {
@@ -149,12 +200,29 @@ const Home = withStyles(_Home, theme => ({
     marginBottom: 10,
   },
   fab: {
-    // react native position absolute
     position: 'absolute',
     bottom: 20,
     right: 20,
     borderRadius: 100,
   },
+  overflowMenu: {
+  },
+  settingsButton: {
+    flex: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    padding: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  settingsIcon: {
+    flex: 0,
+    width: 20,
+    height: 20,
+    margin: 0,
+  }
 }));
 
 export default Home;
