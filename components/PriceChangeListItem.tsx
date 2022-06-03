@@ -77,7 +77,7 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                                 />
                             </View>
 
-                            <Text style={eva?.style?.title} category='s1' status='basic'>
+                            <Text style={eva?.style?.title} category='h5' status='basic'>
                                 GHC {price.price.toFixed(2)}
                             </Text>
                         </View>
@@ -135,7 +135,7 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                             {Strings.EN.Percentage_change}
                         </Text>
                         <Text style={eva?.style?.detailsValue} category='s1'>
-                            {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
+                            ({priceChange > 0 ? '+' : '-'})%{Math.abs(priceChange).toFixed(2)}
                         </Text>
                     </View>
                     <Divider />
@@ -257,11 +257,11 @@ const PriceChangeListItem = withStyles(_PriceChangeListItem, theme => ({
     },
     detailsText: {
         fontFamily: 'Nunito-Regular',
-        fontSize: 14,
+        marginRight: 20,
     },
     detailsValue: {
         fontFamily: 'Nunito-Bold',
-        fontSize: 14,
+        marginVertical: 5,
     },
 }));
 
