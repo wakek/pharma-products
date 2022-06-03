@@ -12,7 +12,7 @@ import { default as custom_theme } from './theme.json';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const [theme, setTheme] = React.useState('light');
+  const [theme, setTheme] = React.useState<string>('light');
 
   const toggleTheme = () => {
     const nextTheme = theme === 'light' ? 'dark' : 'light';
@@ -28,7 +28,7 @@ export default function App() {
         <RootStoreProvider>
           <ThemeContext.Provider value={{ theme, toggleTheme }}>
             <ApplicationProvider
-              {...eva} theme={{ ...eva.light, ...custom_theme }}
+              {...eva} theme={{ ...eva[theme], ...custom_theme }}
             >
               <SafeAreaView style={{ flex: 1 }}>
                 <Navigation />

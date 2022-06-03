@@ -85,7 +85,7 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                             <View style={[eva?.style?.bagde, eva?.style?.dateTimeBagde]}>
                                 <Icon
                                     style={eva?.style?.badgeIcon}
-                                    fill={theme['text-basic-color']}
+                                    fill='#000'
                                     name='clock-outline'
                                 />
                                 <Text style={eva?.style?.badgeText} category='s2' status='basic'>
@@ -103,7 +103,7 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                             >
                                 <Icon
                                     style={eva?.style?.badgeIcon}
-                                    fill={priceChange >= 0 ? theme['color-success-600'] : theme['color-danger-600']}
+                                    fill='#000'
                                     name='percent-outline'
                                 />
                                 <Text style={eva?.style?.badgeText} category='s2' status='basic'>
@@ -220,6 +220,7 @@ const PriceChangeListItem = withStyles(_PriceChangeListItem, theme => ({
         opacity: 0.6,
     },
     badgeText: {
+        color: '#000',
         opacity: 0.6,
         fontFamily: 'Nunito-Regular',
         fontSize: 15,

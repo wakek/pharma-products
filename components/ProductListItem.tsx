@@ -136,7 +136,7 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
                         <View style={[eva?.style?.bagde, eva?.style?.priceBagde]}>
                             <Icon
                                 style={eva?.style?.badgeIcon}
-                                fill={theme['text-basic-color']}
+                                fill='#000'
                                 name='pricetags-outline'
                             />
                             <Text style={eva?.style?.badgeText} category='s2' status='basic'>
@@ -147,7 +147,7 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
                         <View style={[eva?.style?.bagde, eva?.style?.dateBagde]}>
                             <Icon
                                 style={eva?.style?.badgeIcon}
-                                fill={theme['text-basic-color']}
+                                fill='#000'
                                 name='calendar-outline'
                             />
                             <Text style={eva?.style?.badgeText} category='s2' status='basic'>
@@ -158,7 +158,7 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
                         <View style={[eva?.style?.bagde, eva?.style?.editsBagde]}>
                             <Icon
                                 style={eva?.style?.badgeIcon}
-                                fill={theme['text-basic-color']}
+                                fill='#000'
                                 name='bar-chart-outline'
                             />
                             <Text style={eva?.style?.badgeText} category='s2' status='basic'>
@@ -230,12 +230,13 @@ const ProductListItem = withStyles(_ProductListItem, theme => ({
         backgroundColor: '#E3F3FE',
     },
     badgeIcon: {
+        opacity: 0.6,
         height: 15,
         width: 15,
         marginRight: 5,
-        opacity: 0.6,
     },
     badgeText: {
+        color: '#000',
         opacity: 0.6,
         fontFamily: 'Nunito-Regular',
         fontSize: 15,
