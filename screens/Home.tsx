@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { Button, Divider, EvaProp, Icon, Layout, List, Spinner, Text, withStyles } from '@ui-kitten/components';
+import { Button, Divider, EvaProp, Icon, Layout, List, Text, withStyles } from '@ui-kitten/components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
@@ -54,7 +54,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
 
   return (
     <Layout style={eva.style?.container}>
-      {productsStore.getIsLoading &&
+      {/* {productsStore.getIsLoading &&
         <View
           style={{
             flex: 1,
@@ -63,7 +63,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
           }}>
           <Spinner />
         </View>
-      }
+      } */}
 
       {(!productsStore.getIsLoading && productsStore.getProducts.length > 0) && <List
         ListHeaderComponent={

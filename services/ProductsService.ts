@@ -1,9 +1,10 @@
+import { Strings } from "../constants/Strings";
 import { ProductsResponse } from "../models/ApiResponses";
 
 const getAllProducts = async (): Promise<ProductsResponse | undefined> => {
 
     return fetch(
-        `https://www.mocky.io/v2/5c3e15e63500006e003e9795`,
+        `${Strings.API.BASE_URL}${Strings.API.V2}${Strings.API.PRODUCTS_ENDPOINT}`,
         {
             method: 'GET',
             headers: {
@@ -12,9 +13,7 @@ const getAllProducts = async (): Promise<ProductsResponse | undefined> => {
             },
         },
     )
-        .then(response => {
-            return response.json();
-        })
+        .then(response => response.json())
         .then((productsResponse: ProductsResponse) => {
             return productsResponse;
         })
