@@ -43,6 +43,7 @@ const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProp
       <PriceChangeListItem
         price={price.item}
         priceChange={priceChange}
+        product={product!}
       />
     );
   };

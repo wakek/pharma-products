@@ -15,8 +15,6 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
     const theme = useTheme();
     const navigation = useNavigation();
     const { productsStore } = useRootStore();
-
-    // create swipeable ref
     const swipeableRef = React.useRef<Swipeable>(null);
 
     const getLatestPriceDate = (): string => {
@@ -75,6 +73,7 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
             </RectButton>
         );
     };
+    
     const renderRightActions = (
         progress: Animated.AnimatedInterpolation,
         dragX: Animated.AnimatedInterpolation

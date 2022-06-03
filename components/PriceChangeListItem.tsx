@@ -1,17 +1,22 @@
 import { Card, EvaProp, Icon, Modal, Text, useTheme, withStyles } from "@ui-kitten/components";
 import React from "react";
-import { I18nManager, View } from "react-native";
-import { Price } from "../models/Product";
+import { Animated, I18nManager, TouchableOpacity, View } from "react-native";
+import { RectButton, Swipeable } from "react-native-gesture-handler";
+import { useRootStore } from "../hooks/useRootStore";
+import { Price, Product } from "../models/Product";
 
 export interface PriceChangeListItemProps {
     price: Price,
     priceChange: number,
+    product: Product,
     eva?: EvaProp,
 }
 
-const _PriceChangeListItem = ({ price, priceChange, eva }: PriceChangeListItemProps) => {
+const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeListItemProps) => {
+    const { productsStore } = useRootStore();
     const theme = useTheme();
     const [visibleModal, setVisibleModal] = React.useState(false);
+    const swipeableRef = React.useRef<Swipeable>(null);
 
     const getPriceDate = (): string => {
         // return date as MMM DD, YYYY
@@ -22,53 +27,92 @@ const _PriceChangeListItem = ({ price, priceChange, eva }: PriceChangeListItemPr
         });
     };
 
+    const renderActions = (
+        progress: Animated.AnimatedInterpolation,
+        dragX: Animated.AnimatedInterpolation
+    ) => {
+        const scale = dragX.interpolate({
+            inputRange: [-80, 0],
+            outputRange: [1, 0],
+            extrapolate: 'clamp',
+        });
+        return (
+            <RectButton style={eva?.style?.rightAction} onPress={deletePrice}>
+                <Icon
+                    name="trash-2-outline"
+                    size={30}
+                    fill="#fff"
+                    style={[eva?.style?.actionIcon, eva?.style?.rightActionIcon]}
+                />
+            </RectButton>
+        );
+    };
+
+    const deletePrice = () => {
+        productsStore.removePrice(price.id, product);
+    }
+
     return (
         <>
-            <View style={eva?.style?.card}>
-                <View style={eva?.style?.titleRow}>
-                    <View style={eva?.style?.productIconContainer}>
-                        <Icon
-                            style={eva?.style?.productIcon}
-                            fill={theme['text-basic-color']}
-                            name={priceChange > 0 ? 'chevron-up-outline' : 'chevron-down-outline'}
-                        />
+            <Swipeable
+                ref={swipeableRef}
+                friction={3}
+                leftThreshold={80}
+                rightThreshold={41}
+                renderLeftActions={renderActions}
+                renderRightActions={renderActions}
+                onSwipeableLeftOpen={deletePrice}
+                onSwipeableRightOpen={deletePrice}
+            >
+                <TouchableOpacity onPress={() => setVisibleModal(true)} activeOpacity={0.7}>
+                    <View style={eva?.style?.card}>
+                        <View style={eva?.style?.titleRow}>
+                            <View style={eva?.style?.productIconContainer}>
+                                <Icon
+                                    style={eva?.style?.productIcon}
+                                    fill={theme['text-basic-color']}
+                                    name={priceChange > 0 ? 'chevron-up-outline' : 'chevron-down-outline'}
+                                />
+                            </View>
+
+                            <Text style={eva?.style?.title} category='s1' status='basic'>
+                                GHC {price.price.toFixed(2)}
+                            </Text>
+                        </View>
+                        <View style={eva?.style?.badgeRow}>
+                            <View style={[eva?.style?.bagde, eva?.style?.dateTimeBagde]}>
+                                <Icon
+                                    style={eva?.style?.badgeIcon}
+                                    fill={theme['text-basic-color']}
+                                    name='clock-outline'
+                                />
+                                <Text style={eva?.style?.badgeText} category='s2' status='basic'>
+                                    {getPriceDate()}
+                                </Text>
+                            </View>
+
+                            <View
+                                style={[
+                                    eva?.style?.bagde, eva?.style?.percentageBadge,
+                                    {
+                                        backgroundColor: priceChange >= 0 ? theme['color-success-200'] : theme['color-danger-200'],
+                                    }
+                                ]}
+                            >
+                                <Icon
+                                    style={eva?.style?.badgeIcon}
+                                    fill={priceChange >= 0 ? theme['color-success-600'] : theme['color-danger-600']}
+                                    name='percent-outline'
+                                />
+                                <Text style={eva?.style?.badgeText} category='s2' status='basic'>
+                                    {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
+                                </Text>
+                            </View>
+                        </View>
                     </View>
 
-                    <Text style={eva?.style?.title} category='s1' status='basic'>
-                        GHC {price.price.toFixed(2)}
-                    </Text>
-                </View>
-                <View style={eva?.style?.badgeRow}>
-                    <View style={[eva?.style?.bagde, eva?.style?.dateTimeBagde]}>
-                        <Icon
-                            style={eva?.style?.badgeIcon}
-                            fill={theme['text-basic-color']}
-                            name='clock-outline'
-                        />
-                        <Text style={eva?.style?.badgeText} category='s2' status='basic'>
-                            {getPriceDate()}
-                        </Text>
-                    </View>
-
-                    <View
-                        style={[
-                            eva?.style?.bagde, eva?.style?.percentageBadge,
-                            {
-                                backgroundColor: priceChange >= 0 ? theme['color-success-200'] : theme['color-danger-200'],
-                            }
-                        ]}
-                    >
-                        <Icon
-                            style={eva?.style?.badgeIcon}
-                            fill={priceChange >= 0 ? theme['color-success-600'] : theme['color-danger-600']}
-                            name='percent-outline'
-                        />
-                        <Text style={eva?.style?.badgeText} category='s2' status='basic'>
-                            {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
-                        </Text>
-                    </View>
-                </View>
-            </View>
+                </TouchableOpacity>
+            </Swipeable>
 
             <Modal
                 visible={visibleModal}

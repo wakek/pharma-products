@@ -95,6 +95,20 @@ export class ProductsStore {
         this.setProducts(_products);
     }
 
+    removePrice(priceId: number, product: Product) {
+        const _products = this.products.map(
+            (_product: Product) => (_product.id === product.id
+                ? {
+                    ..._product,
+                    prices: _product.prices.filter(
+                        price => price.id !== priceId,
+                    ),
+                }
+                : _product),
+        );
+        this.setProducts(_products);
+    }
+
     getProductById(id: number) {
         return this.products.find(_product => _product.id === id);
     }
