@@ -121,28 +121,28 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                 onBackdropPress={() => setVisibleModal(false)}>
                 <Card disabled={true}>
                     <View style={eva?.style?.detailsRow}>
-                        <Text style={eva?.style?.detailsText}>
+                        <Text style={eva?.style?.detailsText} category='s1'>
                             {Strings.EN.Price}
                         </Text>
-                        <Text style={eva?.style?.detailsValue}>
+                        <Text style={eva?.style?.detailsValue} category='s1'>
                             {price.price}
                         </Text>
                     </View>
                     <Divider />
                     <View style={eva?.style?.detailsRow}>
-                        <Text style={eva?.style?.detailsText}>
+                        <Text style={eva?.style?.detailsText} category='s1'>
                             {Strings.EN.Percentage_change}
                         </Text>
-                        <Text style={eva?.style?.detailsValue}>
+                        <Text style={eva?.style?.detailsValue} category='s1'>
                             {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
                         </Text>
                     </View>
                     <Divider />
                     <View style={eva?.style?.detailsRow}>
-                        <Text style={eva?.style?.detailsText}>
+                        <Text style={eva?.style?.detailsText} category='s1'>
                             {Strings.EN.Date_created}
                         </Text>
-                        <Text style={eva?.style?.detailsValue}>
+                        <Text style={eva?.style?.detailsValue} category='s1'>
                             {getPriceDate()}
                         </Text>
                     </View>
