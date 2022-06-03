@@ -79,7 +79,7 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
     };
 
     return (
-        <>
+        <Layout style={eva.style?.container}>
             <TopNavigation
                 accessoryLeft={
                     <TopNavigationBackAction
@@ -87,7 +87,7 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
                     />
                 }
             />
-            <Layout style={eva.style?.container}>
+            <View style={eva.style?.content}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
                     keyboardShouldPersistTaps='handled'
                 >
@@ -151,8 +151,8 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
                         {Strings.EN.Add}
                     </Button>
                 </ScrollView>
-            </Layout>
-        </>
+            </View>
+        </Layout>
     );
 });
 
@@ -160,6 +160,8 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
 const AddProduct = withStyles(_AddProduct, theme => ({
     container: {
         flex: 1,
+    },
+    content: {
         paddingHorizontal: 20,
     },
     h6: {

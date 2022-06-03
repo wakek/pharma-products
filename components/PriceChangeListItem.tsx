@@ -1,7 +1,8 @@
-import { Card, EvaProp, Icon, Modal, Text, useTheme, withStyles } from "@ui-kitten/components";
+import { Card, Divider, EvaProp, Icon, Modal, Text, useTheme, withStyles } from "@ui-kitten/components";
 import React from "react";
 import { Animated, I18nManager, TouchableOpacity, View } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
+import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
 import { Price, Product } from "../models/Product";
 
@@ -119,7 +120,32 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                 backdropStyle={eva?.style?.backdrop}
                 onBackdropPress={() => setVisibleModal(false)}>
                 <Card disabled={true}>
-                    <Text>Welcome to UI Kitten 😻</Text>
+                    <View style={eva?.style?.detailsRow}>
+                        <Text style={eva?.style?.detailsText}>
+                            {Strings.EN.Price}
+                        </Text>
+                        <Text style={eva?.style?.detailsValue}>
+                            {price.price}
+                        </Text>
+                    </View>
+                    <Divider />
+                    <View style={eva?.style?.detailsRow}>
+                        <Text style={eva?.style?.detailsText}>
+                            {Strings.EN.Percentage_change}
+                        </Text>
+                        <Text style={eva?.style?.detailsValue}>
+                            {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
+                        </Text>
+                    </View>
+                    <Divider />
+                    <View style={eva?.style?.detailsRow}>
+                        <Text style={eva?.style?.detailsText}>
+                            {Strings.EN.Date_created}
+                        </Text>
+                        <Text style={eva?.style?.detailsValue}>
+                            {getPriceDate()}
+                        </Text>
+                    </View>
                 </Card>
             </Modal>
         </>
@@ -221,6 +247,19 @@ const PriceChangeListItem = withStyles(_PriceChangeListItem, theme => ({
     },
     rightActionIcon: {
         marginRight: 30,
+    },
+    detailsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    detailsText: {
+        fontFamily: 'Nunito-Regular',
+        fontSize: 14,
+    },
+    detailsValue: {
+        fontFamily: 'Nunito-Bold',
+        fontSize: 14,
     },
 }));
 

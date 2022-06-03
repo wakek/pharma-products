@@ -28,6 +28,10 @@ export const Strings = {
         'Enter_a_valid_name': 'Enter a valid name.',
         'Enter_a_valid_price': 'Enter a valid price.',
         'New_price': 'New price',
+        'Reset_data': 'Reset data',
+        'Price': 'Price',
+        'Date_created': 'Date created',
+        'Percentage_change': 'Percentage change',
     },
     STORAGE_KEYS: {
         'Products_key': '_Products_key_',

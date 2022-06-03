@@ -113,7 +113,11 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
                 visible={visible}
                 onSelect={onItemSelect}
                 onBackdropPress={() => setVisible(false)}>
-                <MenuItem title='Reset data' />
+                <MenuItem title={
+                  <Text category='s1'>
+                    {Strings.EN.Reset_data}
+                  </Text>
+                } />
               </OverflowMenu>
             </View>
           </>

@@ -68,7 +68,7 @@ const _AddPrice = observer(({ route, navigation, eva }: AddPriceProps) => {
     };
 
     return (
-        <>
+        <Layout style={eva.style?.container} level='1'>
             <TopNavigation
                 accessoryLeft={
                     <TopNavigationBackAction
@@ -76,7 +76,7 @@ const _AddPrice = observer(({ route, navigation, eva }: AddPriceProps) => {
                     />
                 }
             />
-            <Layout style={eva.style?.container}>
+            <View style={eva?.style?.content}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
                     keyboardShouldPersistTaps='handled'
                 >
@@ -135,8 +135,8 @@ const _AddPrice = observer(({ route, navigation, eva }: AddPriceProps) => {
                         {Strings.EN.Add}
                     </Button>
                 </ScrollView>
-            </Layout>
-        </>
+            </View>
+        </Layout>
     );
 });
 
@@ -144,8 +144,10 @@ const _AddPrice = observer(({ route, navigation, eva }: AddPriceProps) => {
 const AddPrice = withStyles(_AddPrice, theme => ({
     container: {
         flex: 1,
+    },
+    content: {
+        flex: 1,
         paddingHorizontal: 20,
-
     },
     h6: {
         marginBottom: 5,

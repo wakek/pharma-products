@@ -61,7 +61,7 @@ const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProp
   };
 
   return (
-    <>
+    <Layout style={eva.style?.container} level='1'>
       <TopNavigation
         accessoryLeft={
           <TopNavigationBackAction
@@ -69,8 +69,7 @@ const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProp
           />
         }
       />
-      <Layout style={eva.style?.container}>
-
+      <View style={eva?.style?.content}>
         {(product?.prices && product?.prices.length > 0) && <List
           ListHeaderComponent={
             () => <>
@@ -117,13 +116,16 @@ const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProp
         >
           {Strings.EN.Add_Price.toUpperCase()}
         </Button>
-      </Layout>
-    </>
+      </View>
+    </Layout>
   );
 });
 
 const ProductDetails = withStyles(_ProductDetails, theme => ({
   container: {
+    flex: 1,
+  },
+  content: {
     flex: 1,
   },
   h6: {

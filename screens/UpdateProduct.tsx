@@ -58,7 +58,7 @@ const _UpdateProduct = observer(({ route, navigation, eva }: UpdateProductProps)
     };
 
     return (
-        <>
+        <Layout style={eva.style?.container}>
             <TopNavigation
                 accessoryLeft={
                     <TopNavigationBackAction
@@ -66,7 +66,7 @@ const _UpdateProduct = observer(({ route, navigation, eva }: UpdateProductProps)
                     />
                 }
             />
-            <Layout style={eva.style?.container}>
+            <View style={eva?.style?.content}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
                     keyboardShouldPersistTaps='handled'
                 >
@@ -103,8 +103,8 @@ const _UpdateProduct = observer(({ route, navigation, eva }: UpdateProductProps)
                         {Strings.EN.Update}
                     </Button>
                 </ScrollView>
-            </Layout>
-        </>
+            </View>
+        </Layout>
     );
 });
 
@@ -112,8 +112,10 @@ const _UpdateProduct = observer(({ route, navigation, eva }: UpdateProductProps)
 const UpdateProduct = withStyles(_UpdateProduct, theme => ({
     container: {
         flex: 1,
+    },
+    content: {
+        flex: 1,
         paddingHorizontal: 20,
-
     },
     h6: {
         marginBottom: 5,
