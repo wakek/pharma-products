@@ -51,6 +51,7 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
 
     const deletePrice = () => {
         productsStore.removePrice(price.id, product);
+        swipeableRef.current?.close();
     }
 
     return (

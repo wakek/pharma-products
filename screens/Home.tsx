@@ -5,6 +5,7 @@ import React from 'react';
 import { ListRenderItemInfo, RefreshControl, View } from 'react-native';
 import ProductListItem from '../components/ProductListItem';
 import { Strings } from '../constants/Strings';
+import { ThemeContext } from '../contexts/theme-context';
 import { useRootStore } from '../hooks/useRootStore';
 import { Product } from '../models/Product';
 import { RootScreenProps } from '../types';
@@ -20,6 +21,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
   const _navigation = useNavigation();
   const [visible, setVisible] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | undefined>(undefined);
+  const themeContext = React.useContext(ThemeContext);
 
   React.useEffect(() => {
     return () => {
@@ -34,6 +36,8 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
         productsStore.loadProducts();
         break;
       case 1:
+        themeContext.toggleTheme();
+        break;
       default:
         break;
     }
@@ -44,17 +48,13 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
   );
 
   const getLatestPriceDate = (product: Product): Date => {
-    // get latest date from list of strings in product.prices
-    const latestPriceDate = product.prices.reduce((latestDate, price) => {
+    return product.prices.reduce((latestDate, price) => {
       const date = new Date(price.date);
       if (date > latestDate) {
         return date;
       }
       return latestDate;
     }, new Date(0));
-
-    // return date as MMM DD, YYYY
-    return latestPriceDate;
   };
 
   const getSortedProducts = () => {
@@ -116,6 +116,11 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
                 <MenuItem title={
                   <Text category='s1'>
                     {Strings.EN.Reset_data}
+                  </Text>
+                } />
+                <MenuItem title={
+                  <Text category='s1'>
+                    {Strings.EN.Toggle_theme}
                   </Text>
                 } />
               </OverflowMenu>

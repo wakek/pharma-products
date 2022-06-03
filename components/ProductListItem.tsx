@@ -3,6 +3,7 @@ import { EvaProp, Icon, Text, useTheme, withStyles } from "@ui-kitten/components
 import React from "react";
 import { Animated, I18nManager, TouchableOpacity, View } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
+import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
 import { Product } from "../models/Product";
 
@@ -28,7 +29,7 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
         }, new Date(0));
 
         // return date as MMM DD, YYYY
-        return latestPriceDate.toLocaleDateString('en-US', {
+        return product.prices.length === 0 ? Strings.EN.N_A : latestPriceDate.toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
             year: 'numeric',
@@ -37,12 +38,12 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
 
     const getLatestPrice = (): string => {
         // get latest price from list of strings in product.prices
-        const latestPrice = product.prices.reduce((latestPrice, price) => {
+        const latestPrice = product.prices.reduce((_latestPrice, price) => {
             const priceNum = parseFloat(price.price.toLocaleString());
-            if (priceNum > latestPrice) {
+            if (priceNum > _latestPrice) {
                 return priceNum;
             }
-            return latestPrice;
+            return _latestPrice;
         }, 0);
 
         // return price as $###.##
@@ -54,10 +55,10 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
     }
 
     const renderLeftActions = (
-        progress: Animated.AnimatedInterpolation,
+        _progress: Animated.AnimatedInterpolation,
         dragX: Animated.AnimatedInterpolation
     ) => {
-        const scale = dragX.interpolate({
+        const _scale = dragX.interpolate({
             inputRange: [0, 80],
             outputRange: [0, 1],
             extrapolate: 'clamp',
@@ -73,12 +74,12 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
             </RectButton>
         );
     };
-    
+
     const renderRightActions = (
-        progress: Animated.AnimatedInterpolation,
+        _progress: Animated.AnimatedInterpolation,
         dragX: Animated.AnimatedInterpolation
     ) => {
-        const scale = dragX.interpolate({
+        const _scale = dragX.interpolate({
             inputRange: [-80, 0],
             outputRange: [1, 0],
             extrapolate: 'clamp',
@@ -175,7 +176,7 @@ const ProductListItem = withStyles(_ProductListItem, theme => ({
     card: {
         backgroundColor: theme['background-basic-color-1'],
         paddingHorizontal: 20,
-        paddingVertical: 10,
+        paddingVertical: 15,
     },
     productIcon: {
         padding: 5,

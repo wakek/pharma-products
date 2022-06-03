@@ -67,7 +67,7 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
                 name: controlNameInputState.value,
                 prices: [{
                     id: 1,
-                    price: parseFloat(controlPriceInputState.value),
+                    price: parseFloat(controlPriceInputState.value.replace(/,/g, '')),
                     date: date.toISOString(),
                 }],
             };
@@ -162,6 +162,7 @@ const AddProduct = withStyles(_AddProduct, theme => ({
         flex: 1,
     },
     content: {
+        flex: 1,
         paddingHorizontal: 20,
     },
     h6: {

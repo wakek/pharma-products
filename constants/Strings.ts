@@ -32,6 +32,8 @@ export const Strings = {
         'Price': 'Price',
         'Date_created': 'Date created',
         'Percentage_change': 'Percentage change',
+        'N_A': 'N/A',
+        'Toggle_theme': 'Toggle theme',
     },
     STORAGE_KEYS: {
         'Products_key': '_Products_key_',
