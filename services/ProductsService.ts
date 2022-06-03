@@ -1,10 +1,9 @@
-import { Strings } from "../constants/Strings";
 import { ProductsResponse } from "../models/ApiResponses";
 
 const getAllProducts = async (): Promise<ProductsResponse | undefined> => {
 
     return fetch(
-        `${Strings.API.BASE_URL}${Strings.API.V2}${Strings.API.PRODUCTS_ENDPOINT}`,
+        `https://www.mocky.io/v2/5c3e15e63500006e003e9795`,
         {
             method: 'GET',
             headers: {
