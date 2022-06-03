@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Button, Divider, EvaProp, Icon, Layout, List, Text, withStyles } from '@ui-kitten/components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ListRenderItemInfo, View } from 'react-native';
+import { ListRenderItemInfo, RefreshControl, View } from 'react-native';
 import ProductListItem from '../components/ProductListItem';
 import { Strings } from '../constants/Strings';
 import { useRootStore } from '../hooks/useRootStore';
@@ -54,7 +54,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
 
   return (
     <Layout style={eva.style?.container}>
-      {/* {productsStore.getIsLoading &&
+      {/* {productsStore.getProducts.length === 0 && productsStore.getIsLoading &&
         <View
           style={{
             flex: 1,
@@ -65,7 +65,14 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
         </View>
       } */}
 
-      {(!productsStore.getIsLoading && productsStore.getProducts.length > 0) && <List
+      <List
+        // Add refresh control to enable pull to refresh
+        refreshControl={
+          <RefreshControl
+            refreshing={productsStore.isLoading}
+            onRefresh={() => productsStore.loadStoredProducts(500)}
+          />
+        }
         ListHeaderComponent={
           () => <>
             <Text style={eva.style?.h6} category='h3' status='primary'>
@@ -77,24 +84,25 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
           </>
         }
         ListHeaderComponentStyle={eva.style?.listHeader}
+        ListEmptyComponent={
+          () => <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            <Text style={eva.style?.noDataText} category='h6'>
+              {Strings.EN['No data']}
+            </Text>
+          </View>
+        }
         style={eva.style?.listContainer}
-        contentContainerStyle={eva.style?.contentContainer}
+        // toggle visibility based on isLoading
+        contentContainerStyle={[eva.style?.contentContainer, { display: productsStore.isLoading ? 'none' : 'flex' }]}
         data={getSortedProducts()}
         renderItem={renderListItem}
         ItemSeparatorComponent={Divider}
-      />}
-
-      {(!productsStore.getIsLoading && productsStore.getProducts.length == 0) && <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-        <Text style={eva.style?.noDataText} category='h6'>
-          {Strings.EN['No data']}
-        </Text>
-      </View>
-      }
+      />
 
       <Button
         style={eva.style?.fab}
@@ -135,7 +143,7 @@ const Home = withStyles(_Home, theme => ({
   },
   listContainer: {
     backgroundColor: 'transparent',
-    paddingVertical: 20,
+    paddingBottom: 20,
   },
   contentContainer: {
     marginBottom: 10,

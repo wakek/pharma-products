@@ -1,9 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+import AddPrice from '../screens/AddPrice';
 import AddProduct from '../screens/AddProduct';
 import Home from '../screens/Home';
-import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import ProductDetails from '../screens/ProductDetails';
 import UpdateProduct from '../screens/UpdateProduct';
@@ -42,13 +42,17 @@ function RootNavigator() {
         component={UpdateProduct}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="ProductDetails"
+        component={ProductDetails}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AddPrice"
+        component={AddPrice}
+        options={{ headerShown: false }}
+      />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-        <Stack.Screen
-          name="ProductDetails"
-          component={ProductDetails}
-          options={{ headerShown: false }}
-        />
 
       </Stack.Group>
     </Stack.Navigator>

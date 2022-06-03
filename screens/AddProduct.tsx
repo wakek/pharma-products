@@ -1,8 +1,9 @@
 import { Route, useNavigation } from "@react-navigation/native";
-import { Button, Datepicker, EvaProp, Icon, Input, Layout, Text, TopNavigation, TopNavigationAction, withStyles } from "@ui-kitten/components";
+import { Button, Datepicker, EvaProp, Icon, Input, Layout, Text, TopNavigation, withStyles } from "@ui-kitten/components";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { ScrollView, View } from "react-native";
+import TopNavigationBackAction from "../components/TopNavigationBackAction";
 import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
 import { Product } from "../models/Product";
@@ -80,13 +81,11 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
     return (
         <>
             <TopNavigation
-                accessoryLeft={<TopNavigationAction
-                    icon={(props) => (
-                        <Icon {...props} name='arrow-back' />
-                    )}
-                    onPress={() => _navigation.goBack()}
-                />}
-                title={Strings.EN.Products}
+                accessoryLeft={
+                    <TopNavigationBackAction
+                        title={Strings.EN.Products}
+                    />
+                }
             />
             <Layout style={eva.style?.container}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
@@ -162,7 +161,6 @@ const AddProduct = withStyles(_AddProduct, theme => ({
     container: {
         flex: 1,
         paddingHorizontal: 20,
-
     },
     h6: {
         marginBottom: 5,

@@ -17,7 +17,7 @@ export type RootStackParamList = {
   ProductDetails: { product: Product };
   AddProduct: undefined;
   UpdateProduct: { product: Product };
-  Modal: undefined;
+  AddPrice: { product: Product };
   NotFound: undefined;
 };
 
@@ -31,5 +31,7 @@ export type RootScreenProps = NativeStackScreenProps<RootStackParamList, "Root">
 export type ProductDetailsScreenProps = NativeStackScreenProps<RootStackParamList, "ProductDetails">;
 
 export type AddProductScreenProps = NativeStackScreenProps<RootStackParamList, "AddProduct">;
+
+export type AddPriceScreenProps = NativeStackScreenProps<RootStackParamList, "AddPrice">;
 
 export type UpdateProductScreenProps = NativeStackScreenProps<RootStackParamList, "UpdateProduct">;

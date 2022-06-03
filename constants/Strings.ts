@@ -15,6 +15,8 @@ export const Strings = {
         'No data': 'No data',
         'Add_Product': 'Add Product',
         'Add_Product_Subtitle': 'Add a new product to the list.',
+        'Add_Price': 'Add Price',
+        'Add_Price_Subtitle': 'Set a new price for',
         'Update_Product': 'Update Product',
         'Update_Product_Subtitle': 'Update the details of this product.',
         'Product_Name': 'Product Name',
@@ -25,6 +27,7 @@ export const Strings = {
         'Price_Date_Subtitle': 'Enter the date of the price.',
         'Enter_a_valid_name': 'Enter a valid name.',
         'Enter_a_valid_price': 'Enter a valid price.',
+        'New_price': 'New price',
     },
     STORAGE_KEYS: {
         'Products_key': '_Products_key_',

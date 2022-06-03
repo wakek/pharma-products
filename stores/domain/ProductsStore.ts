@@ -29,57 +29,6 @@ export class ProductsStore {
     }
 
     async loadProducts() {
-        // this.setProducts([
-        //     {
-        //         "id": 1,
-        //         "name": "Exforge 10mg",
-        //         "prices": [
-        //             {
-        //                 "id": 1,
-        //                 "price": 10.99,
-        //                 "date": "2019-01-01T17:16:32+00:00"
-        //             },
-        //             {
-        //                 "id": 2,
-        //                 "price": 9.20,
-        //                 "date": "2018-11-01T17:16:32+00:00"
-        //             }
-        //         ]
-        //     },
-        //     {
-        //         "id": 2,
-        //         "name": "Exforge 20mg",
-        //         "prices": [
-        //             {
-        //                 "id": 3,
-        //                 "price": 12.00,
-        //                 "date": "2019-01-01T17:16:32+00:00"
-        //             },
-        //             {
-        //                 "id": 4,
-        //                 "price": 13.20,
-        //                 "date": "2018-11-01T17:16:32+00:00"
-        //             }
-        //         ]
-        //     },
-        //     {
-        //         "id": 3,
-        //         "name": "Paracetamol 20MG",
-        //         "prices": [
-        //             {
-        //                 "id": 5,
-        //                 "price": 5.00,
-        //                 "date": "2017-01-01T17:16:32+00:00"
-        //             },
-        //             {
-        //                 "id": 6,
-        //                 "price": 13.20,
-        //                 "date": "2018-11-01T17:16:32+00:00"
-        //             }
-        //         ]
-        //     }
-        // ]);
-        // this.setIsLoading(false);
         ProductsService.getAllProducts()
             .then(productsResponse => {
                 if (
@@ -96,7 +45,8 @@ export class ProductsStore {
             .finally(() => this.setIsLoading(false));
     }
 
-    async loadStoredProducts() {
+    async loadStoredProducts(delay: number = 0) {
+        this.setIsLoading(true);
         AsyncStorage.getItem(Strings.STORAGE_KEYS.Products_key)
             .then(productsStringified => {
                 this.setProducts(
@@ -104,7 +54,48 @@ export class ProductsStore {
                 );
             })
             .catch(err => this.setProducts([]))
-            .finally(() => this.setIsLoading(false));
+            .finally(() => setTimeout(() => this.setIsLoading(false), delay));
+    }
+
+    removeProduct(product: Product) {
+        const _products = this.products.filter(
+            _product => _product.id !== product.id,
+        );
+        this.setProducts(_products);
+    }
+
+    addProduct(product: Product) {
+        this.products.push(product);
+        this.setProducts(this.products);
+    }
+
+    updateProduct(product: Product) {
+        const _products = this.products.map(
+            _product => (_product.id === product.id ? product : _product),
+        );
+        this.setProducts(_products);
+    }
+
+    addPrice(price: number, product: Product, date?: Date) {
+        const _products = this.products.map(
+            (_product: Product) => (_product.id === product.id
+                ? {
+                    ..._product,
+                    prices: _product.prices.concat([
+                        {
+                            id: this.getNewPriceId(product),
+                            price: price,
+                            date: (date ?? new Date()).toISOString(),
+                        }
+                    ]),
+                }
+                : _product),
+        );
+        this.setProducts(_products);
+    }
+
+    getProductById(id: number) {
+        return this.products.find(_product => _product.id === id);
     }
 
     private setIsLoading(_isLoading: boolean) {
@@ -119,27 +110,13 @@ export class ProductsStore {
         );
     }
 
-    removeProduct(product: Product) {
-        this.products = this.products.filter(
-            _product => _product.id !== product.id,
-        );
-        this.setProducts(this.products);
-    }
-
-    addProduct(product: Product) {
-        this.products.push(product);
-        this.setProducts(this.products);
-    }
-
-    updateProduct(product: Product) {
-        this.products = this.products.map(
-            _product => (_product.id === product.id ? product : _product),
-        );
-        this.setProducts(this.products);
-    }
-
     getNewProductId() {
         const maxId = Math.max(...this.products.map(product => product.id));
+        return maxId + 1;
+    }
+
+    getNewPriceId(product: Product) {
+        const maxId = Math.max(...product.prices.map(price => price.id));
         return maxId + 1;
     }
 
