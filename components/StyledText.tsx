@@ -8,15 +8,15 @@ export const NunitoText = (props: NunitoTextProps) => {
   const getFontFamily = (weight: NunitoTextProps['weight']) => {
     switch (weight) {
       case 'regular':
-        return 'NunitoSans-Regular';
+        return 'Nunito-Regular';
       case 'medium':
-        return 'NunitoSans-Medium';
+        return 'Nunito-Medium';
       case 'bold':
-        return 'NunitoSans-Bold';
+        return 'Nunito-Bold';
       case 'extraBold':
-        return 'NunitoSans-ExtraBold';
+        return 'Nunito-ExtraBold';
       default:
-        return 'NunitoSans-Regular';
+        return 'Nunito-Regular';
     }
   }
 

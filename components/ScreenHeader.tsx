@@ -15,7 +15,9 @@ const _ScreenHeader = ({ title, subtitle, eva }: ScreenHeaderProps) => {
             <View style={eva?.style?.header}>
                 <NunitoText
                     style={eva?.style?.title}
-                    weight='bold'
+                    weight='extraBold'
+                    category='h3'
+                    status='primary'
                 >
                     {title}
                 </NunitoText>
