@@ -29,13 +29,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="https://i.imgur.com/grWK2vL.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
-<img src="https://i.imgur.com/fVJfkN6.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
-<img src="https://i.imgur.com/dLSKrOi.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
-<img src="https://i.imgur.com/EDe8Uvc.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
-<img src="https://i.imgur.com/IKgFkOI.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
-<img src="https://i.imgur.com/2pFxjhR.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
-<img src="https://i.imgur.com/8KJ6y3O.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
+<!-- div with flex wrap for images -->
+<div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+  <img src="https://i.imgur.com/grWK2vL.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
+  <img src="https://i.imgur.com/fVJfkN6.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
+  <img src="https://i.imgur.com/dLSKrOi.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
+  <img src="https://i.imgur.com/EDe8Uvc.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
+  <img src="https://i.imgur.com/IKgFkOI.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
+  <img src="https://i.imgur.com/2pFxjhR.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
+  <img src="https://i.imgur.com/8KJ6y3O.png" alt="drawing" width="200" style="border: 1px solid rgba(0,0,0,0.05)"/>
+</div>
 
 Pharma-Products is a react native mobile app built to perform CRUD operations on local storage, with initial data fetched from [mocky](http://www.mocky.io/v2/5c3e15e63500006e003e9795).
 
