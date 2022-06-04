@@ -93,24 +93,44 @@ Ensure you have the following software installed:
 * The project's npm packages must be installed in the project's root directory:
   
     ```sh
-    expo install
+    npm install
     ```
 
 
-## Available Scripts
+## Usage
 
-The following scripts are available to run on your local machine:
+The following scripts are available to test or run the project on the Expo platform, or on your local machine:
 
-### `npm start`
+### `expo start`
 
 Runs your app in development mode.
+Expo dev tools should open up in your browser, however if it doesn't you should be able to open the site from the localhost link displayed in your console.
 
-Open it in the [Expo Go app](https://expo.io) on your phone to view it. It will reload if you save edits to your files, and you will see build errors and logs in the terminal.
+To start using the app on Expo Go, please follow the steps below:
+
+* For iOS:
+
+  * [Ensure Expo Go is installed on your device](https://apps.apple.com/us/app/expo-go/id982107779).
+  * Ensure your device is connected to the same network as your PC.
+  * If that is not possible, select the tunnel option and wait for the tunnel connection to be established.
+  * Next, open the camera on your phone to scan the QR code in the dev tools or the console.
+  * Once the QR code is scanned, click on the Expo Go link.
+  * Once the app is opened, you can start using the app.
+
+* For Android:
+
+  * [Ensure Expo Go is installed on your device](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en&gl=US).
+  * Ensure your device is connected to the same network as your PC.
+  * If that is not possible, select the tunnel option and wait for the tunnel connection to be established.
+  * Next, open Expo Go and select the 'Scan QR code' option.
+  * Once the QR code is scanned, wait for the app to open.
+
+Expo will reload if you save edits to your files, and you will see build errors and logs in the terminal.
 
 Sometimes you may need to reset or clear the React Native packager's cache. To do so, you can pass the `--reset-cache` flag to the start script:
 
 ```sh
-npm start --reset-cache
+expo start --reset-cache
 ```
 
 #### `npm test`
@@ -119,11 +139,11 @@ Runs the [jest](https://github.com/facebook/jest) test runner on your tests.
 
 #### `npm run ios`
 
-Like `npm start`, but also attempts to open your app in the iOS Simulator if you're on a Mac and have it installed.
+Like `expo start`, but also attempts to open your app in the iOS Simulator if you're on a Mac and have it installed.
 
 #### `npm run android`
 
-Like `npm start`, but also attempts to open your app on a connected Android device or emulator. Requires an installation of Android build tools (see [React Native docs](https://facebook.github.io/react-native/docs/getting-started.html) for detailed setup). We also recommend installing Genymotion as your Android emulator. Once you've finished setting up the native build environment, there are two options for making the right copy of `adb` available to Create React Native App:
+Like `expo start`, but also attempts to open your app on a connected Android device or emulator. Requires an installation of Android build tools (see [React Native docs](https://facebook.github.io/react-native/docs/getting-started.html) for detailed setup). It is recommended to install Genymotion as your Android emulator. Once you've finished setting up the native build environment, there are two options for making the right copy of `adb` available to Create React Native App:
 
 ##### Using Android Studio's `adb`
 
