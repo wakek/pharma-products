@@ -2,7 +2,7 @@ import { Route, useNavigation } from '@react-navigation/native';
 import { Button, Divider, EvaProp, Icon, Layout, List, TopNavigation, withStyles } from '@ui-kitten/components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ListRenderItemInfo, View } from 'react-native';
+import { ListRenderItemInfo, SafeAreaView, View } from 'react-native';
 import PriceChangeListItem from '../components/PriceChangeListItem';
 import ScreenHeader from '../components/ScreenHeader';
 import { NunitoText } from '../components/StyledText';
@@ -64,61 +64,63 @@ const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProp
 
   return (
     <Layout style={eva.style?.container} level='1'>
-      <TopNavigation
-        accessoryLeft={
-          <TopNavigationBackAction
-            title={Strings.EN.Products}
-          />
-        }
-      />
-      <View style={eva?.style?.content}>
-        {(product?.prices && product?.prices.length > 0) && <List
-          ListHeaderComponent={
-            () =>
-              <ScreenHeader
-                title={`${Strings.EN.Overview}: ${product?.name}`}
-                subtitle={Strings.EN.Overview_Subtitle}
-              />
-          }
-          ListHeaderComponentStyle={eva.style?.listHeader}
-          style={eva.style?.listContainer}
-          contentContainerStyle={eva.style?.contentContainer}
-          data={getSortedPrices()}
-          renderItem={renderListItem}
-          ItemSeparatorComponent={Divider}
-        />}
-
-        {(!product || product?.prices.length == 0) && <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-          <NunitoText
-            category='h6'
-            weight='bold'
-          >
-            {Strings.EN['No data']}
-          </NunitoText>
-        </View>
-        }
-
-        <Button
-          style={eva.style?.fab}
-          size='large'
-          status='primary'
+      <SafeAreaView style={{ flex: 1 }}>
+        <TopNavigation
           accessoryLeft={
-            <Icon
-              name="plus"
-              size={20}
-              fill="#fff"
+            <TopNavigationBackAction
+              title={Strings.EN.Products}
             />
           }
-          onPress={product !== undefined ? () => _navigation.navigate('AddPrice', { product: product }) : undefined}
-        >
-          {Strings.EN.Add_Price.toUpperCase()}
-        </Button>
-      </View>
+        />
+        <View style={eva?.style?.content}>
+          {(product?.prices && product?.prices.length > 0) && <List
+            ListHeaderComponent={
+              () =>
+                <ScreenHeader
+                  title={`${Strings.EN.Overview}: ${product?.name}`}
+                  subtitle={Strings.EN.Overview_Subtitle}
+                />
+            }
+            ListHeaderComponentStyle={eva.style?.listHeader}
+            style={eva.style?.listContainer}
+            contentContainerStyle={eva.style?.contentContainer}
+            data={getSortedPrices()}
+            renderItem={renderListItem}
+            ItemSeparatorComponent={Divider}
+          />}
+
+          {(!product || product?.prices.length == 0) && <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            <NunitoText
+              category='h6'
+              weight='bold'
+            >
+              {Strings.EN['No data']}
+            </NunitoText>
+          </View>
+          }
+
+          <Button
+            style={eva.style?.fab}
+            size='large'
+            status='primary'
+            accessoryLeft={
+              <Icon
+                name="plus"
+                size={20}
+                fill="#fff"
+              />
+            }
+            onPress={product !== undefined ? () => _navigation.navigate('AddPrice', { product: product }) : undefined}
+          >
+            {Strings.EN.Add_Price.toUpperCase()}
+          </Button>
+        </View>
+      </SafeAreaView>
     </Layout>
   );
 });

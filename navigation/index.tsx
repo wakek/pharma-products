@@ -12,49 +12,53 @@ import LinkingConfiguration from './LinkingConfiguration';
 
 
 export default function Navigation() {
-  return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-    >
-      <RootNavigator />
-    </NavigationContainer>
-  );
+    return (
+        <NavigationContainer
+            linking={LinkingConfiguration}
+        >
+            <RootNavigator />
+        </NavigationContainer>
+    );
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Root" component={Home} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: 'Oops!' }}
-      />
-      <Stack.Screen
-        name="AddProduct"
-        component={AddProduct}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="UpdateProduct"
-        component={UpdateProduct}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="ProductDetails"
-        component={ProductDetails}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="AddPrice"
-        component={AddPrice}
-        options={{ headerShown: false }}
-      />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Root"
+                component={Home}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="NotFound"
+                component={NotFoundScreen}
+                options={{ title: 'Oops!' }}
+            />
+            <Stack.Screen
+                name="AddProduct"
+                component={AddProduct}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="UpdateProduct"
+                component={UpdateProduct}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="ProductDetails"
+                component={ProductDetails}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="AddPrice"
+                component={AddPrice}
+                options={{ headerShown: false }}
+            />
+            <Stack.Group screenOptions={{ presentation: 'modal' }}>
 
-      </Stack.Group>
-    </Stack.Navigator>
-  );
+            </Stack.Group>
+        </Stack.Navigator>
+    );
 }

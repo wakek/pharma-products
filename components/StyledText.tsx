@@ -1,7 +1,7 @@
 import { Text, TextProps } from '@ui-kitten/components';
 
 export type NunitoTextProps = TextProps & {
-  weight?: 'regular' | 'medium' | 'bold' | 'extraBold';
+  weight?: 'regular' | 'medium' | 'semiBold' | 'bold' | 'extraBold';
 };
 
 export const NunitoText = (props: NunitoTextProps) => {
@@ -10,7 +10,8 @@ export const NunitoText = (props: NunitoTextProps) => {
       case 'regular':
         return 'Nunito-Regular';
       case 'medium':
-        return 'Nunito-Medium';
+      case 'semiBold':
+        return 'Nunito-SemiBold';
       case 'bold':
         return 'Nunito-Bold';
       case 'extraBold':

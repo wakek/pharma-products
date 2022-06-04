@@ -3,6 +3,7 @@ import { EvaProp, Icon, useTheme, withStyles } from "@ui-kitten/components";
 import React from "react";
 import { Animated, I18nManager, TouchableOpacity, View } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
+import Toast from 'react-native-root-toast';
 import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
 import { Product } from "../models/Product";
@@ -104,6 +105,10 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
 
     const deleteProduct = () => {
         productsStore.removeProduct(product);
+        Toast.show(Strings.EN.Product_deleted_successfully, {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM * 2.5,
+        });
         swipeableRef.current?.close();
     };
 

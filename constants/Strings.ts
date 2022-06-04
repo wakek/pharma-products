@@ -36,6 +36,11 @@ export const Strings = {
         'Toggle_theme': 'Toggle theme',
         'Screen_not_available': 'Screen not available',
         'Go_to_home': 'Go to home',
+        'Product_added_successfully': 'Product added successfully',
+        'Product_updated_successfully': 'Product updated successfully',
+        'Product_deleted_successfully': 'Product deleted successfully',
+        'Price_added_successfully': 'Price added successfully',
+        'Data_reset_successfully': 'Data reset successfully',
     },
     STORAGE_KEYS: {
         'Products_key': '_Products_key_',

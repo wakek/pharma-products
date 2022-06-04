@@ -2,7 +2,8 @@ import { Route, useNavigation } from "@react-navigation/native";
 import { Button, Datepicker, EvaProp, Icon, Input, Layout, TopNavigation, withStyles } from "@ui-kitten/components";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
+import Toast from 'react-native-root-toast';
 import ScreenHeader from "../components/ScreenHeader";
 import { NunitoText } from "../components/StyledText";
 import TopNavigationBackAction from "../components/TopNavigationBackAction";
@@ -75,6 +76,10 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
             };
 
             productsStore.addProduct(product);
+            Toast.show(Strings.EN.Product_added_successfully, {
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM * 2.5,
+            });
             _navigation.goBack();
         }
 
@@ -82,84 +87,86 @@ const _AddProduct = observer(({ route, navigation, eva }: AddProductProps) => {
 
     return (
         <Layout style={eva.style?.container}>
-            <TopNavigation
-                accessoryLeft={
-                    <TopNavigationBackAction
-                        title={Strings.EN.Products}
-                    />
-                }
-            />
-            <View style={eva.style?.content}>
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}
-                    keyboardShouldPersistTaps='handled'
-                >
-                    <ScreenHeader
-                        title={Strings.EN.Add_Product}
-                        subtitle={Strings.EN.Add_Product_Subtitle}
-                    />
-
-                    <Input
-                        style={eva.style?.input}
-                        label={Strings.EN.Product_Name}
-                        placeholder={Strings.EN.Product_Name_Subtitle}
-                        accessoryLeft={(props: any) => (
-                            <Icon {...props} name='cube-outline' />
-                        )}
-                        status={nameInputError ? 'danger' : 'basic'}
-                        caption={evaProps =>
-                            nameInputError ?
-                                <NunitoText
-                                    {...evaProps}
-                                    weight='regular'
-                                >
-                                    {Strings.EN.Enter_a_valid_name}
-                                </NunitoText> :
-                                <></>
-                        }
-                        {...controlNameInputState}
-                    />
-
-                    <Input
-                        style={eva.style?.input}
-                        label={Strings.EN.Product_Price}
-                        placeholder={Strings.EN.Product_Price_Subtitle}
-                        accessoryLeft={(props: any) => (
-                            <Icon {...props} name='pricetags-outline' />
-                        )}
-                        status={priceInputError ? 'danger' : 'basic'}
-                        caption={evaProps =>
-                            priceInputError ?
-                                <NunitoText
-                                    {...evaProps}
-                                    weight='regular'
-                                >
-                                    {Strings.EN.Enter_a_valid_price}
-                                </NunitoText> :
-                                <></>
-                        }
-                        {...controlPriceInputState}
-                    />
-
-                    <Datepicker
-                        style={eva.style?.input}
-                        label={Strings.EN.Price_Date}
-                        placeholder={Strings.EN.Price_Date_Subtitle}
-                        date={date}
-                        onSelect={nextDate => setDate(nextDate)}
-                        accessoryRight={(props: any) => (
-                            <Icon {...props} name='calendar-outline' />
-                        )}
-                    />
-
-                    <Button
-                        style={eva.style?.button}
-                        size='large'
-                        onPress={addProduct}
+            <SafeAreaView style={{ flex: 1 }}>
+                <TopNavigation
+                    accessoryLeft={
+                        <TopNavigationBackAction
+                            title={Strings.EN.Products}
+                        />
+                    }
+                />
+                <View style={eva.style?.content}>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}
+                        keyboardShouldPersistTaps='handled'
                     >
-                        {Strings.EN.Add}
-                    </Button>
-                </ScrollView>
-            </View>
+                        <ScreenHeader
+                            title={Strings.EN.Add_Product}
+                            subtitle={Strings.EN.Add_Product_Subtitle}
+                        />
+
+                        <Input
+                            style={eva.style?.input}
+                            label={Strings.EN.Product_Name}
+                            placeholder={Strings.EN.Product_Name_Subtitle}
+                            accessoryLeft={(props: any) => (
+                                <Icon {...props} name='cube-outline' />
+                            )}
+                            status={nameInputError ? 'danger' : 'basic'}
+                            caption={evaProps =>
+                                nameInputError ?
+                                    <NunitoText
+                                        {...evaProps}
+                                        weight='regular'
+                                    >
+                                        {Strings.EN.Enter_a_valid_name}
+                                    </NunitoText> :
+                                    <></>
+                            }
+                            {...controlNameInputState}
+                        />
+
+                        <Input
+                            style={eva.style?.input}
+                            label={Strings.EN.Product_Price}
+                            placeholder={Strings.EN.Product_Price_Subtitle}
+                            accessoryLeft={(props: any) => (
+                                <Icon {...props} name='pricetags-outline' />
+                            )}
+                            status={priceInputError ? 'danger' : 'basic'}
+                            caption={evaProps =>
+                                priceInputError ?
+                                    <NunitoText
+                                        {...evaProps}
+                                        weight='regular'
+                                    >
+                                        {Strings.EN.Enter_a_valid_price}
+                                    </NunitoText> :
+                                    <></>
+                            }
+                            {...controlPriceInputState}
+                        />
+
+                        <Datepicker
+                            style={eva.style?.input}
+                            label={Strings.EN.Price_Date}
+                            placeholder={Strings.EN.Price_Date_Subtitle}
+                            date={date}
+                            onSelect={nextDate => setDate(nextDate)}
+                            accessoryRight={(props: any) => (
+                                <Icon {...props} name='calendar-outline' />
+                            )}
+                        />
+
+                        <Button
+                            style={eva.style?.button}
+                            size='large'
+                            onPress={addProduct}
+                        >
+                            {Strings.EN.Add}
+                        </Button>
+                    </ScrollView>
+                </View>
+            </SafeAreaView>
         </Layout>
     );
 });

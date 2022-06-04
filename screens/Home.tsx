@@ -2,7 +2,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Button, Divider, EvaProp, Icon, IndexPath, Layout, List, MenuItem, OverflowMenu, Spinner, withStyles } from '@ui-kitten/components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ListRenderItemInfo, RefreshControl, View } from 'react-native';
+import { ListRenderItemInfo, RefreshControl, SafeAreaView, View } from 'react-native';
+import Toast from 'react-native-root-toast';
 import ProductListItem from '../components/ProductListItem';
 import ScreenHeader from '../components/ScreenHeader';
 import { NunitoText } from '../components/StyledText';
@@ -11,7 +12,6 @@ import { ThemeContext } from '../contexts/theme-context';
 import { useRootStore } from '../hooks/useRootStore';
 import { Product } from '../models/Product';
 import { RootScreenProps } from '../types';
-
 
 interface HomeProps {
   navigation: RootScreenProps,
@@ -35,7 +35,7 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
 
     switch (index.row) {
       case 0:
-        productsStore.loadProducts();
+        resetData();
         break;
       case 1:
         themeContext.toggleTheme();
@@ -44,6 +44,14 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
         break;
     }
   };
+
+  const resetData = async () => {
+    await productsStore.loadProducts();
+    Toast.show(Strings.EN.Data_reset_successfully, {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.BOTTOM * 2.5,
+    });
+  }
 
   const renderListItem = (product: ListRenderItemInfo<Product>) => (
     <ProductListItem product={product.item} />
@@ -71,114 +79,116 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
 
   return (
     <Layout style={eva.style?.container}>
-      <List
-        // Add refresh control to enable pull to refresh
-        refreshControl={
-          <RefreshControl
-            // set color of refresh control
-            tintColor={eva && eva?.theme ? eva?.theme['color-primary-500'] : '#F4F5F6'}
-            refreshing={productsStore.isLoading}
-            onRefresh={() => productsStore.loadStoredProducts(500)}
-          />
-        }
-        ListHeaderComponent={
-          () => <>
-            <View style={eva?.style?.headerTitleRow}>
-              <View style={eva?.style?.screenHeader}>
-                <ScreenHeader
-                  title={Strings.EN.Our_Products}
-                  subtitle={Strings.EN.Products_Subtitle}
-                />
+      <SafeAreaView style={{ flex: 1 }}>
+        <List
+          // Add refresh control to enable pull to refresh
+          refreshControl={
+            <RefreshControl
+              // set color of refresh control
+              tintColor={eva && eva?.theme ? eva?.theme['color-primary-500'] : '#F4F5F6'}
+              refreshing={productsStore.isLoading}
+              onRefresh={() => productsStore.loadStoredProducts(500)}
+            />
+          }
+          ListHeaderComponent={
+            () => <>
+              <View style={eva?.style?.headerTitleRow}>
+                <View style={eva?.style?.screenHeader}>
+                  <ScreenHeader
+                    title={Strings.EN.Our_Products}
+                    subtitle={Strings.EN.Products_Subtitle}
+                  />
+                </View>
+
+                <OverflowMenu
+                  style={eva.style?.overflowMenu}
+                  anchor={() =>
+                    <Button
+                      status='basic'
+                      size='tiny'
+                      style={eva?.style?.settingsButton}
+                      onPress={() => setVisible(true)}
+                    >
+                      <View>
+                        <Icon
+                          style={eva.style?.settingsIcon}
+                          name="settings"
+                          size={20}
+                          fill={eva && eva?.theme ? eva.theme['color-basic-transparent-600'] : '#F4F5F6'}
+                        />
+                      </View>
+                    </Button>}
+                  selectedIndex={selectedIndex}
+                  visible={visible}
+                  onSelect={onItemSelect}
+                  onBackdropPress={() => setVisible(false)}>
+                  <MenuItem title={
+                    <NunitoText
+                      category='s1'
+                      weight='medium'
+                    >
+                      {Strings.EN.Reset_data}
+                    </NunitoText>
+                  } />
+                  <MenuItem title={
+                    <NunitoText
+                      category='s1'
+                      weight='medium'
+                    >
+                      {Strings.EN.Toggle_theme}
+                    </NunitoText>
+                  } />
+                </OverflowMenu>
               </View>
-
-              <OverflowMenu
-                style={eva.style?.overflowMenu}
-                anchor={() =>
-                  <Button
-                    status='basic'
-                    size='tiny'
-                    style={eva?.style?.settingsButton}
-                    onPress={() => setVisible(true)}
-                  >
-                    <View>
-                      <Icon
-                        style={eva.style?.settingsIcon}
-                        name="settings"
-                        size={20}
-                        fill={eva && eva?.theme ? eva.theme['color-basic-transparent-600'] : '#F4F5F6'}
-                      />
-                    </View>
-                  </Button>}
-                selectedIndex={selectedIndex}
-                visible={visible}
-                onSelect={onItemSelect}
-                onBackdropPress={() => setVisible(false)}>
-                <MenuItem title={
-                  <NunitoText
-                    category='s1'
-                    weight='medium'
-                  >
-                    {Strings.EN.Reset_data}
-                  </NunitoText>
-                } />
-                <MenuItem title={
-                  <NunitoText
-                    category='s1'
-                    weight='medium'
-                  >
-                    {Strings.EN.Toggle_theme}
-                  </NunitoText>
-                } />
-              </OverflowMenu>
+            </>
+          }
+          ListHeaderComponentStyle={eva.style?.listHeader}
+          ListEmptyComponent={
+            () => !productsStore.getIsLoading ? <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              <NunitoText
+                style={eva.style?.noDataText}
+                category='h6'
+                weight='bold'
+              >
+                {Strings.EN['No data']}
+              </NunitoText>
+            </View> : <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              <Spinner />
             </View>
-          </>
-        }
-        ListHeaderComponentStyle={eva.style?.listHeader}
-        ListEmptyComponent={
-          () => !productsStore.getIsLoading ? <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-            <NunitoText
-              style={eva.style?.noDataText}
-              category='h6'
-              weight='bold'
-            >
-              {Strings.EN['No data']}
-            </NunitoText>
-          </View> : <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-            <Spinner />
-          </View>
-        }
-        style={eva.style?.listContainer}
-        contentContainerStyle={[eva.style?.contentContainer]}
-        data={getSortedProducts()}
-        renderItem={renderListItem}
-        ItemSeparatorComponent={Divider}
-      />
+          }
+          style={eva.style?.listContainer}
+          contentContainerStyle={[eva.style?.contentContainer]}
+          data={getSortedProducts()}
+          renderItem={renderListItem}
+          ItemSeparatorComponent={Divider}
+        />
 
-      <Button
-        style={eva.style?.fab}
-        size='large'
-        status='primary'
-        accessoryLeft={
-          <Icon
-            name="plus"
-            size={20}
-            fill="#fff"
-          />
-        }
-        onPress={() => _navigation.navigate('AddProduct')}
-      >
-        {Strings.EN.Add.toUpperCase()}
-      </Button>
+        <Button
+          style={eva.style?.fab}
+          size='large'
+          status='primary'
+          accessoryLeft={
+            <Icon
+              name="plus"
+              size={20}
+              fill="#fff"
+            />
+          }
+          onPress={() => _navigation.navigate('AddProduct')}
+        >
+          {Strings.EN.Add.toUpperCase()}
+        </Button>
+      </SafeAreaView>
     </Layout>
   );
 });

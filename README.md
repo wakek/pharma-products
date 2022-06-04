@@ -145,5 +145,9 @@ This will start the process of "ejecting" from Create React Native App's build s
 <!-- CONTACT -->
 ## Contact
 
+<!-- linkedin icon for git readme.md -->
+
+
 [LinkedIn](https://www.linkedin.com/in/william-a-k-e-k-003b3612a/)
+
 [Project](https://github.com/wakek/pharma-products)
