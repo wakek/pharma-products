@@ -34,6 +34,8 @@ export const Strings = {
         'Percentage_change': 'Percentage change',
         'N_A': 'N/A',
         'Toggle_theme': 'Toggle theme',
+        'Screen_not_available': 'Screen not available',
+        'Go_to_home': 'Go to home',
     },
     STORAGE_KEYS: {
         'Products_key': '_Products_key_',

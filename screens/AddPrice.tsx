@@ -1,8 +1,10 @@
 import { Route, useNavigation } from "@react-navigation/native";
-import { Button, Datepicker, EvaProp, Icon, Input, Layout, Text, Toggle, TopNavigation, withStyles } from "@ui-kitten/components";
+import { Button, Datepicker, EvaProp, Icon, Input, Layout, Toggle, TopNavigation, withStyles } from "@ui-kitten/components";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { ScrollView, View } from "react-native";
+import ScreenHeader from "../components/ScreenHeader";
+import { NunitoText } from "../components/StyledText";
 import TopNavigationBackAction from "../components/TopNavigationBackAction";
 import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
@@ -79,14 +81,10 @@ const _AddPrice = observer(({ route, navigation, eva }: AddPriceProps) => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
                     keyboardShouldPersistTaps='handled'
                 >
-                    <View style={eva?.style?.header}>
-                        <Text style={eva.style?.h6} category='h3' status='primary'>
-                            {Strings.EN.Add_Price}
-                        </Text>
-                        <Text style={eva.style?.subtitle} category='s1' status='basic'>
-                            {Strings.EN.Add_Price_Subtitle} {product.name}
-                        </Text>
-                    </View>
+                    <ScreenHeader
+                        title={Strings.EN.Add_Price}
+                        subtitle={`${Strings.EN.Add_Price_Subtitle} ${product.name}`}
+                    />
 
                     <Input
                         style={eva.style?.input}
@@ -97,9 +95,14 @@ const _AddPrice = observer(({ route, navigation, eva }: AddPriceProps) => {
                         )}
                         status={priceInputError ? 'danger' : 'basic'}
                         caption={evaProps =>
-                            priceInputError ? <Text {...evaProps}>
-                                {Strings.EN.Enter_a_valid_price}
-                            </Text> : <></>
+                            priceInputError ?
+                                <NunitoText
+                                    {...evaProps}
+                                    weight="regular"
+                                >
+                                    {Strings.EN.Enter_a_valid_price}
+                                </NunitoText> :
+                                <></>
                         }
                         {...controlPriceInputState}
                     />
@@ -147,18 +150,6 @@ const AddPrice = withStyles(_AddPrice, theme => ({
     content: {
         flex: 1,
         paddingHorizontal: 20,
-    },
-    h6: {
-        marginBottom: 5,
-        fontFamily: 'Nunito-ExtraBold',
-    },
-    subtitle: {
-        marginBottom: 20,
-        opacity: 0.7,
-        fontSize: 17,
-        fontFamily: 'Nunito-Regular',
-    },
-    header: {
     },
     input: {
         marginBottom: 20,

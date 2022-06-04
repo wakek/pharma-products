@@ -1,10 +1,10 @@
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 
-import { MonoText } from '../StyledText';
+import { NunitoText } from '../StyledText';
 
 it(`renders correctly`, () => {
-  const tree = renderer.create(<MonoText>Snapshot test!</MonoText>).toJSON();
+  const tree = renderer.create(<NunitoText>Snapshot test!</NunitoText>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

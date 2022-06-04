@@ -1,9 +1,11 @@
 import { Route, useNavigation } from '@react-navigation/native';
-import { Button, Divider, EvaProp, Icon, Layout, List, Text, TopNavigation, withStyles } from '@ui-kitten/components';
+import { Button, Divider, EvaProp, Icon, Layout, List, TopNavigation, withStyles } from '@ui-kitten/components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ListRenderItemInfo, View } from 'react-native';
 import PriceChangeListItem from '../components/PriceChangeListItem';
+import ScreenHeader from '../components/ScreenHeader';
+import { NunitoText } from '../components/StyledText';
 import TopNavigationBackAction from '../components/TopNavigationBackAction';
 import { Strings } from '../constants/Strings';
 import { useRootStore } from '../hooks/useRootStore';
@@ -72,14 +74,11 @@ const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProp
       <View style={eva?.style?.content}>
         {(product?.prices && product?.prices.length > 0) && <List
           ListHeaderComponent={
-            () => <>
-              <Text style={eva.style?.h6} category='h3' status='primary'>
-                {Strings.EN.Overview}: {product?.name}
-              </Text>
-              <Text style={eva.style?.subtitle} category='s1' status='basic'>
-                {Strings.EN.Overview_Subtitle}
-              </Text>
-            </>
+            () =>
+              <ScreenHeader
+                title={`${Strings.EN.Overview}: ${product?.name}`}
+                subtitle={Strings.EN.Overview_Subtitle}
+              />
           }
           ListHeaderComponentStyle={eva.style?.listHeader}
           style={eva.style?.listContainer}
@@ -95,9 +94,12 @@ const _ProductDetails = observer(({ route, navigation, eva }: ProductDetailsProp
             justifyContent: 'center',
             alignItems: 'center'
           }}>
-          <Text style={eva.style?.noDataText} category='h6'>
+          <NunitoText
+            category='h6'
+            weight='bold'
+          >
             {Strings.EN['No data']}
-          </Text>
+          </NunitoText>
         </View>
         }
 
@@ -127,16 +129,6 @@ const ProductDetails = withStyles(_ProductDetails, theme => ({
   },
   content: {
     flex: 1,
-  },
-  h6: {
-    marginBottom: 5,
-    fontFamily: 'Nunito-ExtraBold',
-  },
-  subtitle: {
-    marginBottom: 20,
-    opacity: 0.7,
-    fontSize: 17,
-    fontFamily: 'Nunito-Regular',
   },
   listHeader: {
     paddingHorizontal: 20,

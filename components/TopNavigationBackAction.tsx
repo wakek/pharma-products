@@ -1,7 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import { EvaProp, Icon, Text, TopNavigationAction, withStyles } from "@ui-kitten/components";
+import { EvaProp, Icon, TopNavigationAction, withStyles } from "@ui-kitten/components";
 import React from "react";
 import { View } from "react-native";
+import { NunitoText } from "./StyledText";
 
 export type TopNavigationBackActionProps = {
     title: string,
@@ -17,7 +18,13 @@ const _TopNavigationBackAction = ({ title, eva }: TopNavigationBackActionProps) 
                 // row with icon and title
                 <View style={eva?.style?.rowContainer}>
                     <Icon {...props} name='arrow-back' />
-                    <Text category='s1' style={eva?.style?.title}>{title}</Text>
+                    <NunitoText
+                        category='s1'
+                        style={eva?.style?.title}
+                        weight='bold'
+                    >
+                        {title}
+                    </NunitoText>
                 </View>
             )}
             onPress={() => _navigation.goBack()}
@@ -31,7 +38,6 @@ const TopNavigationBackAction = withStyles(_TopNavigationBackAction, theme => ({
         alignItems: 'center',
     },
     title: {
-        fontFamily: 'Nunito-Bold',
         marginLeft: 8,
     }
 }));

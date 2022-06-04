@@ -28,7 +28,7 @@ export default function App() {
         <RootStoreProvider>
           <ThemeContext.Provider value={{ theme, toggleTheme }}>
             <ApplicationProvider
-              {...eva} theme={{ ...eva[theme], ...custom_theme }}
+              {...eva} theme={{ ...(eva as any)[theme], ...custom_theme }}
             >
               <SafeAreaView style={{ flex: 1 }}>
                 <Navigation />

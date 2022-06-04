@@ -1,11 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
-import { EvaProp, Icon, Text, useTheme, withStyles } from "@ui-kitten/components";
+import { EvaProp, Icon, useTheme, withStyles } from "@ui-kitten/components";
 import React from "react";
 import { Animated, I18nManager, TouchableOpacity, View } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
 import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
 import { Product } from "../models/Product";
+import { NunitoText } from "./StyledText";
 
 export interface ProductListItemProps {
     product: Product,
@@ -128,42 +129,68 @@ const _ProductListItem = ({ product, eva }: ProductListItemProps) => {
                             />
                         </View>
 
-                        <Text style={eva?.style?.title} category='s1' status='basic'>
+                        <NunitoText
+                            style={eva?.style?.title}
+                            category='s1'
+                            status='basic'
+                            weight="bold"
+                        >
                             {product.name}
-                        </Text>
+                        </NunitoText>
                     </View>
                     <View style={eva?.style?.badgeRow}>
-                        <View style={[eva?.style?.bagde, eva?.style?.priceBagde]}>
+                        <View
+                            style={[eva?.style?.bagde, eva?.style?.priceBagde]}
+                        >
                             <Icon
                                 style={eva?.style?.badgeIcon}
                                 fill='#000'
                                 name='pricetags-outline'
                             />
-                            <Text style={eva?.style?.badgeText} category='s2' status='basic'>
+                            <NunitoText
+                                style={eva?.style?.badgeText}
+                                category='s2'
+                                status='basic'
+                                weight="regular"
+                            >
                                 GHC {getLatestPrice()}
-                            </Text>
+                            </NunitoText>
                         </View>
 
-                        <View style={[eva?.style?.bagde, eva?.style?.dateBagde]}>
+                        <View
+                            style={[eva?.style?.bagde, eva?.style?.dateBagde]}
+                        >
                             <Icon
                                 style={eva?.style?.badgeIcon}
                                 fill='#000'
                                 name='calendar-outline'
                             />
-                            <Text style={eva?.style?.badgeText} category='s2' status='basic'>
+                            <NunitoText
+                                style={eva?.style?.badgeText}
+                                category='s2'
+                                status='basic'
+                                weight="regular"
+                            >
                                 {getLatestPriceDate()}
-                            </Text>
+                            </NunitoText>
                         </View>
 
-                        <View style={[eva?.style?.bagde, eva?.style?.editsBagde]}>
+                        <View
+                            style={[eva?.style?.bagde, eva?.style?.editsBagde]}
+                        >
                             <Icon
                                 style={eva?.style?.badgeIcon}
                                 fill='#000'
                                 name='bar-chart-outline'
                             />
-                            <Text style={eva?.style?.badgeText} category='s2' status='basic'>
+                            <NunitoText
+                                style={eva?.style?.badgeText}
+                                category='s2'
+                                status='basic'
+                                weight="regular"
+                            >
                                 {product.prices.length}
-                            </Text>
+                            </NunitoText>
                         </View>
                     </View>
                 </View>
@@ -200,7 +227,6 @@ const ProductListItem = withStyles(_ProductListItem, theme => ({
     title: {
         flex: 1,
         fontSize: 16,
-        fontFamily: 'Nunito-Bold',
         marginLeft: 10,
     },
     badgeRow: {
@@ -238,10 +264,8 @@ const ProductListItem = withStyles(_ProductListItem, theme => ({
     badgeText: {
         color: '#000',
         opacity: 0.6,
-        fontFamily: 'Nunito-Regular',
         fontSize: 15,
     },
-
     leftAction: {
         flex: 1,
         backgroundColor: '#388e3c',

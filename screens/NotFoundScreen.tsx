@@ -1,14 +1,29 @@
-import { StyleSheet, TouchableOpacity } from 'react-native';
-
-import { Text, View } from '../components/Themed';
+import React from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { NunitoText } from '../components/StyledText';
+import { Strings } from '../constants/Strings';
 import { RootStackScreenProps } from '../types';
 
-export default function NotFoundScreen({ navigation }: RootStackScreenProps<'NotFound'>) {
+
+const NotFoundScreen = ({ navigation }: RootStackScreenProps<'NotFound'>) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>This screen doesn't exist.</Text>
-      <TouchableOpacity onPress={() => navigation.replace('Root')} style={styles.link}>
-        <Text style={styles.linkText}>Go to home screen!</Text>
+      <NunitoText
+        style={styles.title}
+        weight='bold'
+      >
+        {Strings.EN.Screen_not_available}
+      </NunitoText>
+      <TouchableOpacity
+        onPress={() => navigation.replace('Root')}
+        style={styles.link}
+      >
+        <NunitoText
+          style={styles.linkText}
+          weight='regular'
+        >
+          {Strings.EN.Go_to_home}
+        </NunitoText>
       </TouchableOpacity>
     </View>
   );
@@ -23,7 +38,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
   },
   link: {
     marginTop: 15,
@@ -34,3 +48,5 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
+export default NotFoundScreen;

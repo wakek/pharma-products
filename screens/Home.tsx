@@ -1,9 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
-import { Button, Divider, EvaProp, Icon, IndexPath, Layout, List, MenuItem, OverflowMenu, Spinner, Text, withStyles } from '@ui-kitten/components';
+import { Button, Divider, EvaProp, Icon, IndexPath, Layout, List, MenuItem, OverflowMenu, Spinner, withStyles } from '@ui-kitten/components';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ListRenderItemInfo, RefreshControl, View } from 'react-native';
 import ProductListItem from '../components/ProductListItem';
+import ScreenHeader from '../components/ScreenHeader';
+import { NunitoText } from '../components/StyledText';
 import { Strings } from '../constants/Strings';
 import { ThemeContext } from '../contexts/theme-context';
 import { useRootStore } from '../hooks/useRootStore';
@@ -82,13 +84,11 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
         ListHeaderComponent={
           () => <>
             <View style={eva?.style?.headerTitleRow}>
-              <View style={eva?.style?.titles}>
-                <Text style={eva.style?.title} category='h3' status='primary'>
-                  {Strings.EN.Our_Products}
-                </Text>
-                <Text style={eva.style?.subtitle} category='s1' status='basic'>
-                  {Strings.EN.Products_Subtitle}
-                </Text>
+              <View style={eva?.style?.screenHeader}>
+                <ScreenHeader
+                  title={Strings.EN.Our_Products}
+                  subtitle={Strings.EN.Products_Subtitle}
+                />
               </View>
 
               <OverflowMenu
@@ -114,14 +114,20 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
                 onSelect={onItemSelect}
                 onBackdropPress={() => setVisible(false)}>
                 <MenuItem title={
-                  <Text category='s1'>
+                  <NunitoText
+                    category='s1'
+                    weight='medium'
+                  >
                     {Strings.EN.Reset_data}
-                  </Text>
+                  </NunitoText>
                 } />
                 <MenuItem title={
-                  <Text category='s1'>
+                  <NunitoText
+                    category='s1'
+                    weight='medium'
+                  >
                     {Strings.EN.Toggle_theme}
-                  </Text>
+                  </NunitoText>
                 } />
               </OverflowMenu>
             </View>
@@ -135,9 +141,13 @@ const _Home = observer(({ navigation, eva }: HomeProps) => {
               justifyContent: 'center',
               alignItems: 'center'
             }}>
-            <Text style={eva.style?.noDataText} category='h6'>
+            <NunitoText
+              style={eva.style?.noDataText}
+              category='h6'
+              weight='bold'
+            >
               {Strings.EN['No data']}
-            </Text>
+            </NunitoText>
           </View> : <View
             style={{
               flex: 1,
@@ -184,19 +194,8 @@ const Home = withStyles(_Home, theme => ({
     alignItems: 'flx-start',
     marginTop: 15,
   },
-  titles: {
-    flexDirecton: 'column',
-    alignItems: 'flex-start',
+  screenHeader: {
     flex: 1,
-  },
-  title: {
-    fontFamily: 'Nunito-ExtraBold',
-  },
-  subtitle: {
-    marginBottom: 20,
-    opacity: 0.7,
-    fontSize: 17,
-    fontFamily: 'Nunito-Regular',
   },
   listHeader: {
     paddingHorizontal: 20,

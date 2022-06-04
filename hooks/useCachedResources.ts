@@ -15,14 +15,12 @@ export default function useCachedResources() {
         // Load fonts
         await Font.loadAsync({
           ...FontAwesome.font,
-          'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
           'Nunito-Regular': require('../assets/fonts/Nunito-Regular.ttf'),
           'Nunito-SemiBold': require('../assets/fonts/Nunito-SemiBold.ttf'),
           'Nunito-Bold': require('../assets/fonts/Nunito-Bold.ttf'),
           'Nunito-ExtraBold': require('../assets/fonts/Nunito-ExtraBold.ttf'),
         });
       } catch (e) {
-        // We might want to provide this error information to an error reporting service
         console.warn(e);
       } finally {
         setLoadingComplete(true);

@@ -1,10 +1,11 @@
-import { Card, Divider, EvaProp, Icon, Modal, Text, useTheme, withStyles } from "@ui-kitten/components";
+import { Card, Divider, EvaProp, Icon, Modal, useTheme, withStyles } from "@ui-kitten/components";
 import React from "react";
 import { Animated, I18nManager, TouchableOpacity, View } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
 import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
 import { Price, Product } from "../models/Product";
+import { NunitoText } from "./StyledText";
 
 export interface PriceChangeListItemProps {
     price: Price,
@@ -77,9 +78,14 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                                 />
                             </View>
 
-                            <Text style={eva?.style?.title} category='h5' status='basic'>
+                            <NunitoText
+                                style={eva?.style?.title}
+                                category='h5'
+                                status='basic'
+                                weight="bold"
+                            >
                                 GHC {price.price.toFixed(2)}
-                            </Text>
+                            </NunitoText>
                         </View>
                         <View style={eva?.style?.badgeRow}>
                             <View style={[eva?.style?.bagde, eva?.style?.dateTimeBagde]}>
@@ -88,9 +94,14 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                                     fill='#000'
                                     name='clock-outline'
                                 />
-                                <Text style={eva?.style?.badgeText} category='s2' status='basic'>
+                                <NunitoText
+                                    style={eva?.style?.badgeText}
+                                    category='s2'
+                                    status='basic'
+                                    weight="regular"
+                                >
                                     {getPriceDate()}
-                                </Text>
+                                </NunitoText>
                             </View>
 
                             <View
@@ -106,9 +117,13 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                                     fill='#000'
                                     name='percent-outline'
                                 />
-                                <Text style={eva?.style?.badgeText} category='s2' status='basic'>
+                                <NunitoText
+                                    style={eva?.style?.badgeText}
+                                    category='s2'
+                                    status='basic'
+                                >
                                     {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
-                                </Text>
+                                </NunitoText>
                             </View>
                         </View>
                     </View>
@@ -122,30 +137,54 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
                 onBackdropPress={() => setVisibleModal(false)}>
                 <Card disabled={true}>
                     <View style={eva?.style?.detailsRow}>
-                        <Text style={eva?.style?.detailsText} category='s1'>
+                        <NunitoText
+                            style={eva?.style?.detailsText}
+                            category='s1'
+                            weight='regular'
+                        >
                             {Strings.EN.Price}
-                        </Text>
-                        <Text style={eva?.style?.detailsValue} category='s1'>
+                        </NunitoText>
+                        <NunitoText
+                            style={eva?.style?.detailsValue}
+                            category='s1'
+                            weight='bold'
+                        >
                             {price.price}
-                        </Text>
+                        </NunitoText>
                     </View>
                     <Divider />
                     <View style={eva?.style?.detailsRow}>
-                        <Text style={eva?.style?.detailsText} category='s1'>
+                        <NunitoText
+                            style={eva?.style?.detailsText}
+                            category='s1'
+                            weight='regular'
+                        >
                             {Strings.EN.Percentage_change}
-                        </Text>
-                        <Text style={eva?.style?.detailsValue} category='s1'>
+                        </NunitoText>
+                        <NunitoText
+                            style={eva?.style?.detailsValue}
+                            category='s1'
+                            weight='bold'
+                        >
                             ({priceChange > 0 ? '+' : '-'})%{Math.abs(priceChange).toFixed(2)}
-                        </Text>
+                        </NunitoText>
                     </View>
                     <Divider />
                     <View style={eva?.style?.detailsRow}>
-                        <Text style={eva?.style?.detailsText} category='s1'>
+                        <NunitoText
+                            style={eva?.style?.detailsText}
+                            category='s1'
+                            weight='regular'
+                        >
                             {Strings.EN.Date_created}
-                        </Text>
-                        <Text style={eva?.style?.detailsValue} category='s1'>
+                        </NunitoText>
+                        <NunitoText
+                            style={eva?.style?.detailsValue}
+                            category='s1'
+                            weight='bold'
+                        >
                             {getPriceDate()}
-                        </Text>
+                        </NunitoText>
                     </View>
                 </Card>
             </Modal>
@@ -184,7 +223,6 @@ const PriceChangeListItem = withStyles(_PriceChangeListItem, theme => ({
     title: {
         flex: 1,
         fontSize: 16,
-        fontFamily: 'Nunito-Bold',
         marginLeft: 10,
     },
     badgeRow: {
@@ -222,7 +260,6 @@ const PriceChangeListItem = withStyles(_PriceChangeListItem, theme => ({
     badgeText: {
         color: '#000',
         opacity: 0.6,
-        fontFamily: 'Nunito-Regular',
         fontSize: 15,
     },
 
@@ -256,11 +293,9 @@ const PriceChangeListItem = withStyles(_PriceChangeListItem, theme => ({
         alignItems: 'center',
     },
     detailsText: {
-        fontFamily: 'Nunito-Regular',
         marginRight: 20,
     },
     detailsValue: {
-        fontFamily: 'Nunito-Bold',
         marginVertical: 5,
     },
 }));

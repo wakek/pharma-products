@@ -1,8 +1,10 @@
 import { Route, useNavigation } from "@react-navigation/native";
-import { Button, EvaProp, Icon, Input, Layout, Text, TopNavigation, withStyles } from "@ui-kitten/components";
+import { Button, EvaProp, Icon, Input, Layout, TopNavigation, withStyles } from "@ui-kitten/components";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { ScrollView, View } from "react-native";
+import ScreenHeader from "../components/ScreenHeader";
+import { NunitoText } from "../components/StyledText";
 import TopNavigationBackAction from "../components/TopNavigationBackAction";
 import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
@@ -70,14 +72,10 @@ const _UpdateProduct = observer(({ route, navigation, eva }: UpdateProductProps)
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
                     keyboardShouldPersistTaps='handled'
                 >
-                    <View style={eva?.style?.header}>
-                        <Text style={eva.style?.h6} category='h3' status='primary'>
-                            {Strings.EN.Update_Product}
-                        </Text>
-                        <Text style={eva.style?.subtitle} category='s1' status='basic'>
-                            {Strings.EN.Update_Product_Subtitle}
-                        </Text>
-                    </View>
+                    <ScreenHeader
+                        title={Strings.EN.Update_Product}
+                        subtitle={Strings.EN.Update_Product_Subtitle}
+                    />
 
                     <Input
                         style={eva.style?.input}
@@ -88,9 +86,14 @@ const _UpdateProduct = observer(({ route, navigation, eva }: UpdateProductProps)
                         )}
                         status={nameInputError ? 'danger' : 'basic'}
                         caption={evaProps =>
-                            nameInputError ? <Text {...evaProps}>
-                                {Strings.EN.Enter_a_valid_name}
-                            </Text> : <></>
+                            nameInputError ?
+                                <NunitoText
+                                    {...evaProps}
+                                    weight="regular"
+                                >
+                                    {Strings.EN.Enter_a_valid_name}
+                                </NunitoText> :
+                                <></>
                         }
                         {...controlNameInputState}
                     />
@@ -116,18 +119,6 @@ const UpdateProduct = withStyles(_UpdateProduct, theme => ({
     content: {
         flex: 1,
         paddingHorizontal: 20,
-    },
-    h6: {
-        marginBottom: 5,
-        fontFamily: 'Nunito-ExtraBold',
-    },
-    subtitle: {
-        marginBottom: 20,
-        opacity: 0.7,
-        fontSize: 17,
-        fontFamily: 'Nunito-Regular',
-    },
-    header: {
     },
     input: {
         marginBottom: 20,
