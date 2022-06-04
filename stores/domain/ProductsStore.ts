@@ -3,7 +3,7 @@ import * as Network from 'expo-network';
 import { makeAutoObservable } from 'mobx';
 import { Strings } from '../../constants/Strings';
 import { Product } from '../../models/Product';
-import { ProductsService } from '../../services/ProductsService';
+import ProductsService from '../../services/ProductsService';
 import { RootStore } from './RootStore';
 
 export class ProductsStore {
@@ -41,7 +41,6 @@ export class ProductsStore {
             .catch(err => {
                 this.setProducts([]);
                 console.log(err);
-
             })
             .finally(() => this.setIsLoading(false));
     }
@@ -95,9 +94,9 @@ export class ProductsStore {
         this.setProducts(_products);
     }
 
-    removePrice(priceId: number, product: Product) {
+    removePrice(priceId: number, productId: number) {
         const _products = this.products.map(
-            (_product: Product) => (_product.id === product.id
+            (_product: Product) => (_product.id === productId
                 ? {
                     ..._product,
                     prices: _product.prices.filter(

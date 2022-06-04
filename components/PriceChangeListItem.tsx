@@ -4,17 +4,17 @@ import { Animated, I18nManager, TouchableOpacity, View } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
 import { Strings } from "../constants/Strings";
 import { useRootStore } from "../hooks/useRootStore";
-import { Price, Product } from "../models/Product";
+import { Price } from "../models/Product";
 import { NunitoText } from "./StyledText";
 
 export interface PriceChangeListItemProps {
     price: Price,
     priceChange: number,
-    product: Product,
+    productId: number,
     eva?: EvaProp,
 }
 
-const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeListItemProps) => {
+const _PriceChangeListItem = ({ price, priceChange, productId, eva }: PriceChangeListItemProps) => {
     const { productsStore } = useRootStore();
     const theme = useTheme();
     const [visibleModal, setVisibleModal] = React.useState(false);
@@ -30,10 +30,10 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
     };
 
     const renderActions = (
-        progress: Animated.AnimatedInterpolation,
+        _progress: Animated.AnimatedInterpolation,
         dragX: Animated.AnimatedInterpolation
     ) => {
-        const scale = dragX.interpolate({
+        const _scale = dragX.interpolate({
             inputRange: [-80, 0],
             outputRange: [1, 0],
             extrapolate: 'clamp',
@@ -51,7 +51,7 @@ const _PriceChangeListItem = ({ price, priceChange, product, eva }: PriceChangeL
     };
 
     const deletePrice = () => {
-        productsStore.removePrice(price.id, product);
+        productsStore.removePrice(price.id, productId);
         swipeableRef.current?.close();
     }
 

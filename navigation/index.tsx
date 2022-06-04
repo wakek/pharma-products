@@ -58,36 +58,3 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
-
-// const { Navigator, Screen } = createBottomTabNavigator();
-
-// const BottomTabBar = ({ navigation, state }: BottomTabBarProps) => (
-//   <BottomNavigation
-//     style={{
-//       borderTopColor: '#E9ECEF',
-//       borderTopWidth: 1,
-//     }}
-//     selectedIndex={state.index}
-//     onSelect={index => navigation.navigate(state.routeNames[index])}>
-//     <BottomNavigationTab
-//       title='Home'
-//       icon={<Icon name='home' />}
-//     />
-//     <BottomNavigationTab
-//       title='Settings'
-//       icon={<Icon name='settings' />}
-//     />
-//   </BottomNavigation>
-// );
-
-// function BottomTabNavigator() {
-//   return (
-//     <Navigator
-//       tabBar={props =>
-//         <BottomTabBar {...props} />}
-//     >
-//       <Screen name='Home' component={Home} options={{ headerShown: false }} />
-//       <Screen name='Settings' component={Settings} />
-//     </Navigator>
-//   );
-// }
