@@ -57,7 +57,7 @@ const _AddPrice = observer(({ route, navigation, eva }: AddPriceProps) => {
         setPriceInputError(false);
 
         // Check if inputs are empty, if so, show error, otherwise add price
-        if (controlPriceInputState.value.length === 0) {
+        if (controlPriceInputState.value.length === 0 || parseFloat(controlPriceInputState.value) < 0) {
             setPriceInputError(true);
         } else {
             productsStore.addPrice(
