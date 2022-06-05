@@ -57,7 +57,7 @@ const _PriceChangeListItem = ({ price, priceChange, productId, eva }: PriceChang
 
     return (
         <>
-            <Swipeable
+            {/* <Swipeable
                 ref={swipeableRef}
                 friction={3}
                 leftThreshold={80}
@@ -66,70 +66,70 @@ const _PriceChangeListItem = ({ price, priceChange, productId, eva }: PriceChang
                 renderRightActions={renderActions}
                 onSwipeableLeftOpen={deletePrice}
                 onSwipeableRightOpen={deletePrice}
-            >
-                <TouchableOpacity onPress={() => setVisibleModal(true)} activeOpacity={0.7}>
-                    <View style={eva?.style?.card}>
-                        <View style={eva?.style?.titleRow}>
-                            <View style={eva?.style?.productIconContainer}>
-                                <Icon
-                                    style={eva?.style?.productIcon}
-                                    fill={theme['text-basic-color']}
-                                    name={priceChange > 0 ? 'chevron-up-outline' : 'chevron-down-outline'}
-                                />
-                            </View>
+            > */}
+            <TouchableOpacity onPress={() => setVisibleModal(true)} activeOpacity={0.7}>
+                <View style={eva?.style?.card}>
+                    <View style={eva?.style?.titleRow}>
+                        <View style={eva?.style?.productIconContainer}>
+                            <Icon
+                                style={eva?.style?.productIcon}
+                                fill={theme['text-basic-color']}
+                                name={priceChange > 0 ? 'chevron-up-outline' : 'chevron-down-outline'}
+                            />
+                        </View>
 
+                        <NunitoText
+                            style={eva?.style?.title}
+                            category='h5'
+                            status='basic'
+                            weight="bold"
+                        >
+                            GHC {price.price.toFixed(2)}
+                        </NunitoText>
+                    </View>
+                    <View style={eva?.style?.badgeRow}>
+                        <View style={[eva?.style?.bagde, eva?.style?.dateTimeBagde]}>
+                            <Icon
+                                style={eva?.style?.badgeIcon}
+                                fill='#000'
+                                name='clock-outline'
+                            />
                             <NunitoText
-                                style={eva?.style?.title}
-                                category='h5'
+                                style={eva?.style?.badgeText}
+                                category='s2'
                                 status='basic'
-                                weight="bold"
+                                weight="regular"
                             >
-                                GHC {price.price.toFixed(2)}
+                                {getPriceDate()}
                             </NunitoText>
                         </View>
-                        <View style={eva?.style?.badgeRow}>
-                            <View style={[eva?.style?.bagde, eva?.style?.dateTimeBagde]}>
-                                <Icon
-                                    style={eva?.style?.badgeIcon}
-                                    fill='#000'
-                                    name='clock-outline'
-                                />
-                                <NunitoText
-                                    style={eva?.style?.badgeText}
-                                    category='s2'
-                                    status='basic'
-                                    weight="regular"
-                                >
-                                    {getPriceDate()}
-                                </NunitoText>
-                            </View>
 
-                            <View
-                                style={[
-                                    eva?.style?.bagde, eva?.style?.percentageBadge,
-                                    {
-                                        backgroundColor: priceChange >= 0 ? theme['color-success-200'] : theme['color-danger-200'],
-                                    }
-                                ]}
+                        <View
+                            style={[
+                                eva?.style?.bagde, eva?.style?.percentageBadge,
+                                {
+                                    backgroundColor: priceChange >= 0 ? theme['color-success-200'] : theme['color-danger-200'],
+                                }
+                            ]}
+                        >
+                            <Icon
+                                style={eva?.style?.badgeIcon}
+                                fill='#000'
+                                name='percent-outline'
+                            />
+                            <NunitoText
+                                style={eva?.style?.badgeText}
+                                category='s2'
+                                status='basic'
                             >
-                                <Icon
-                                    style={eva?.style?.badgeIcon}
-                                    fill='#000'
-                                    name='percent-outline'
-                                />
-                                <NunitoText
-                                    style={eva?.style?.badgeText}
-                                    category='s2'
-                                    status='basic'
-                                >
-                                    {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
-                                </NunitoText>
-                            </View>
+                                {priceChange > 0 ? '+' : '-'}{Math.abs(priceChange).toFixed(2)}
+                            </NunitoText>
                         </View>
                     </View>
+                </View>
 
-                </TouchableOpacity>
-            </Swipeable>
+            </TouchableOpacity>
+            {/* </Swipeable> */}
 
             <Modal
                 visible={visibleModal}
